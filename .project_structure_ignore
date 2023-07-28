@@ -1,0 +1,6 @@
+bash
+node_modules
+dist
+*.log
+.git
+package-lock.json

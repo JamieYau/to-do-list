@@ -1,0 +1,120 @@
+--- Folder Structure ---
+.project_structure_ignore
+README.md
+package.json
+[src]
+    ├── index.js
+    └── template.html
+webpack.config.js
+
+--- File Contents ---
+
+--- File: README.md ---
+# to-do-list
+
+--- File: package.json ---
+{
+  "name": "to-do-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamieYau/to-do-list.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamieYau/to-do-list/issues"
+  },
+  "homepage": "https://github.com/JamieYau/to-do-list#readme",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.0"
+  }
+}
+
+
+--- File: src/index.js ---
+
+
+--- File: src/template.html ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+--- File: webpack.config.js ---
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  entry: {
+    bundle: path.resolve(__dirname, "src/index.js"),
+  },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].[contenthash].js",
+    clean: true,
+    assetModuleFilename: "[name][ext]",
+  },
+  devtool: "eval",
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    port: 3000,
+    open: true,
+    hot: true,
+    compress: true,
+    historyApiFallback: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/images/[name][ext]", // Output images to 'images' folder
+        },
+      },
+      {
+        test: /\.(woff2?|ttf)$/i, // Matches .woff, .woff2, .ttf files
+        type: "asset/resource",
+        generator: {
+          filename: "assets/fonts/[name][ext]", // Output font files to 'fonts' folder
+        },
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "To-Do List",
+      filename: "index.html",
+      template: path.resolve(__dirname, "src/template.html"),
+    }),
+  ],
+};
+
