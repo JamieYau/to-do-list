@@ -16,3 +16,19 @@ test("Todo constructor sets properties correctly", () => {
   expect(todo.dueDate).toBe(dueDate);
   expect(todo.priority).toBe(priority);
 });
+
+test("Todo setTitle method updates the title correctly", () => {
+  // Arrange
+  const title = "Buy groceries";
+  const description = "Remember to buy milk and eggs.";
+  const dueDate = "2023-07-31";
+  const priority = "High";
+  const todo = new Todo(title, description, dueDate, priority);
+
+  // Act
+  const newTitle = "Buy vegetables";
+  todo.setTitle(newTitle);
+
+  // Assert
+  expect(todo.title).toBe(newTitle);
+});
