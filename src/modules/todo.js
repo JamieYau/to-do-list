@@ -17,6 +17,10 @@ class Todo {
   setDueDate(dueDate) {
     this.dueDate = dueDate;
   }
+
+  setPriority(priority) {
+    this.priority = priority;
+  }
 }
 
 export default Todo;

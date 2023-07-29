@@ -52,3 +52,14 @@ test("Todo setDueDate method updates the due date correctly", () => {
   // Assert
   expect(todo.dueDate).toBe(newDueDate);
 });
+
+test("Todo setPriority method updates the priority correctly", () => {
+  // Arrange
+  const newPriority = "Low";
+
+  // Act
+  todo.setPriority(newPriority);
+
+  // Assert
+  expect(todo.priority).toBe(newPriority);
+});
