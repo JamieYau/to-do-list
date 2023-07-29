@@ -25,22 +25,23 @@ module.exports = {
   },
   module: {
     rules: [
+       // Add this rule for loading CSS files
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
-      },
+      }, // Add this rule for loading imagess
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/images/[name][ext]", // Output images to 'images' folder
+          filename: "assets/images/[name][ext]",
         },
-      },
+      }, // Add this rule for loading fonts
       {
-        test: /\.(woff2?|ttf)$/i, // Matches .woff, .woff2, .ttf files
+        test: /\.(woff2?|ttf)$/i,
         type: "asset/resource",
         generator: {
-          filename: "assets/fonts/[name][ext]", // Output font files to 'fonts' folder
+          filename: "assets/fonts/[name][ext]",
         },
       },
     ],
