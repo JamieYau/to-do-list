@@ -4,6 +4,7 @@ class Todo {
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
+    this.isComplete = false;
   }
 
   setTitle(title) {
@@ -24,6 +25,10 @@ class Todo {
       throw new Error("Priority must be either High, Medium, or Low.");
     }
     this.priority = priority;
+  }
+
+  toggleComplete() {
+    this.isComplete = !this.isComplete;
   }
 }
 

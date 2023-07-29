@@ -18,6 +18,7 @@ describe("Todo", () => {
     expect(todo.description).toBe(description);
     expect(todo.dueDate).toBe(dueDate);
     expect(todo.priority).toBe(priority);
+    expect(todo.isComplete).toBe(false);
   });
 
   describe("setTitle", () => {
@@ -72,4 +73,16 @@ describe("Todo", () => {
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
   });
+
+  describe("toggleComplete", () => {
+    test("toggles the isComplete property correctly", () => {
+      // Arrange
+      const expected = true;
+      // Act
+      todo.toggleComplete();
+      // Assert
+      expect(todo.isComplete).toBe(expected);
+    });
+  });
+  
 });
