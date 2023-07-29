@@ -62,7 +62,16 @@ describe("Todo", () => {
         todo.setDueDate(invalidDueDate);
       }).toThrow("Due date must be a valid Date object.");
     });
-    
+
+    test("throws an error if the due date is in the past", () => {
+      // Arrange
+      const pastDueDate = new Date("2020-01-01");
+
+      // Act & Assert
+      expect(() => {
+        todo.setDueDate(pastDueDate);
+      }).toThrow("Due date must be in the present or future.");
+    });
   });
 
   describe("setPriority", () => {

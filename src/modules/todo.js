@@ -19,6 +19,14 @@ class Todo {
     if (!(dueDate instanceof Date)) {
       throw new Error("Due date must be a valid Date object.");
     }
+
+    // Get the current date
+    const currentDate = new Date();
+    // Compare the due date with the current date
+    if (dueDate < currentDate) {
+      throw new Error("Due date must be in the present or future.");
+    }
+
     this.dueDate = dueDate;
   }
 
