@@ -72,17 +72,34 @@ describe("Todo", () => {
         todo.setPriority(newPriority);
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
+
+    test("Todo setPriority method throws error for empty priority", () => {
+      // Arrange & Act & Assert
+      expect(() => {
+        todo.setPriority("");
+      }).toThrow("Priority must be either High, Medium, or Low.");
+    });
+
+    test("Todo setPriority method throws error for null priority", () => {
+      // Arrange & Act & Assert
+      expect(() => {
+        todo.setPriority(null);
+      }).toThrow("Priority must be either High, Medium, or Low.");
+    });
+
   });
 
   describe("toggleComplete", () => {
     test("toggles the isComplete property correctly", () => {
       // Arrange
       const expected = true;
-      // Act
+      // Act & Assert
       todo.toggleComplete();
-      // Assert
       expect(todo.isComplete).toBe(expected);
+
+      todo.toggleComplete();
+      expect(todo.isComplete).toBe(!expected);
     });
   });
-  
+
 });
