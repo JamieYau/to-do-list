@@ -2,7 +2,7 @@ class Todo {
   constructor(title, description, dueDate, priority) {
     this.title = title;
     this.description = description;
-    this.dueDate = dueDate;
+    this.dueDate = dueDate instanceof Date ? dueDate : new Date(dueDate);
     this.priority = priority;
     this.isComplete = false;
   }
@@ -16,6 +16,9 @@ class Todo {
   }
 
   setDueDate(dueDate) {
+    if (!(dueDate instanceof Date)) {
+      throw new Error("Due date must be a valid Date object.");
+    }
     this.dueDate = dueDate;
   }
 

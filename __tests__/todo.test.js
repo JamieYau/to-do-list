@@ -4,7 +4,7 @@ describe("Todo", () => {
   // Common test data
   const title = "Buy groceries";
   const description = "Remember to buy milk and eggs.";
-  const dueDate = "2023-07-31";
+  const dueDate = new Date("2023-07-31");
   const priority = "High";
   let todo;
 
@@ -46,12 +46,23 @@ describe("Todo", () => {
   describe("setDueDate", () => {
     test("updates the due date correctly", () => {
       // Arrange
-      const newDueDate = "2023-08-31";
+      const newDueDate = new Date("2023-08-31");
       // Act
       todo.setDueDate(newDueDate);
       // Assert
       expect(todo.dueDate).toBe(newDueDate);
     });
+
+    test("throws an error if the due date is not a valid Date object", () => {
+      // Arrange
+      const invalidDueDate = "2023-08-31"; // Not a Date object
+
+      // Act & Assert
+      expect(() => {
+        todo.setDueDate(invalidDueDate);
+      }).toThrow("Due date must be a valid Date object.");
+    });
+    
   });
 
   describe("setPriority", () => {
@@ -87,6 +98,12 @@ describe("Todo", () => {
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
 
+    test("Todo setPriority method throws error for undefined priority", () => {
+      // Arrange & Act & Assert
+      expect(() => {
+        todo.setPriority(undefined);
+      }).toThrow("Priority must be either High, Medium, or Low.");
+    });
   });
 
   describe("toggleComplete", () => {
@@ -101,5 +118,4 @@ describe("Todo", () => {
       expect(todo.isComplete).toBe(!expected);
     });
   });
-
 });
