@@ -13,6 +13,10 @@ class Todo {
   setDescription(description) {
     this.description = description;
   }
+
+  setDueDate(dueDate) {
+    this.dueDate = dueDate;
+  }
 }
 
 export default Todo;

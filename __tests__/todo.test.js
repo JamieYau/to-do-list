@@ -41,3 +41,14 @@ test("Todo setDescription method updates the description correctly", () => {
   // Assert
   expect(todo.description).toBe(newDescription);
 });
+
+test("Todo setDueDate method updates the due date correctly", () => {
+  // Arrange
+  const newDueDate = "2023-08-31";
+
+  // Act
+  todo.setDueDate(newDueDate);
+
+  // Assert
+  expect(todo.dueDate).toBe(newDueDate);
+});
