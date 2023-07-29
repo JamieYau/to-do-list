@@ -1,15 +1,18 @@
 import Todo from "../src/modules/todo.js";
 
+// Common test data
+const title = "Buy groceries";
+const description = "Remember to buy milk and eggs.";
+const dueDate = "2023-07-31";
+const priority = "High";
+
+let todo;
+
+beforeEach(() => {
+  todo = new Todo(title, description, dueDate, priority);
+});
+
 test("Todo constructor sets properties correctly", () => {
-  // Arrange
-  const title = "Buy groceries";
-  const description = "Remember to buy milk and eggs.";
-  const dueDate = "2023-07-31";
-  const priority = "High";
-
-  // Act
-  const todo = new Todo(title, description, dueDate, priority);
-
   // Assert
   expect(todo.title).toBe(title);
   expect(todo.description).toBe(description);
@@ -19,14 +22,9 @@ test("Todo constructor sets properties correctly", () => {
 
 test("Todo setTitle method updates the title correctly", () => {
   // Arrange
-  const title = "Buy groceries";
-  const description = "Remember to buy milk and eggs.";
-  const dueDate = "2023-07-31";
-  const priority = "High";
-  const todo = new Todo(title, description, dueDate, priority);
+  const newTitle = "Buy vegetables";
 
   // Act
-  const newTitle = "Buy vegetables";
   todo.setTitle(newTitle);
 
   // Assert
@@ -35,14 +33,9 @@ test("Todo setTitle method updates the title correctly", () => {
 
 test("Todo setDescription method updates the description correctly", () => {
   // Arrange
-  const title = "Buy groceries";
-  const description = "Remember to buy milk and eggs.";
-  const dueDate = "2023-07-31";
-  const priority = "High";
-  const todo = new Todo(title, description, dueDate, priority);
+  const newDescription = "Remember to buy milk, eggs, and vegetables.";
 
   // Act
-  const newDescription = "Remember to buy milk, eggs, and vegetables.";
   todo.setDescription(newDescription);
 
   // Assert
