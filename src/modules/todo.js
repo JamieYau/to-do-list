@@ -16,7 +16,8 @@ class Todo {
   }
 
   setDueDate(dueDate) {
-    if (!(dueDate instanceof Date)) {
+    // Check if the due date is a valid Date object
+    if (!(dueDate instanceof Date) || isNaN(dueDate) || dueDate === "") {
       throw new Error("Due date must be a valid Date object.");
     }
 

@@ -72,8 +72,15 @@ describe("Todo", () => {
         todo.setDueDate(pastDueDate);
       }).toThrow("Due date must be in the present or future.");
     });
-  });
 
+    test("Todo setDueDate method throws error for empty due date", () => {
+      // Arrange & Act & Assert
+      expect(() => {
+        todo.setDueDate("");
+      }).toThrow("Due date must be a valid Date object.");
+    });
+  });
+  
   describe("setPriority", () => {
     test("updates the priority correctly", () => {
       // Arrange
@@ -127,4 +134,5 @@ describe("Todo", () => {
       expect(todo.isComplete).toBe(!expected);
     });
   });
+
 });
