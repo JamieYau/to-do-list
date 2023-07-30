@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div id="container">
+      <header>
+        <h1>Todo List</h1>
+      </header>
+      <main>
+        <nav>
+          <section>
+            <ul>
+              <li>Inbox</li>
+              <li>Today</li>
+              <li>Upcoming</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Projects</h3>
+            <ul>
+              <li>Project 1</li>
+              <li>Project 2</li>
+              <li>+ Add Project</li>
+            </ul>
+          </section>
+        </nav>
+        <div id="content">
+          <h2 id="project-name">Project Name</h2>
+          <ul id="todo-list">
+            <li class="todo-item">Go gym</li>
+            <li class="todo-item">Do homework</li>
+            <li class="todo-item">Go to sleep</li>
+          </ul>
+        </div>
+      </main>
+      <footer>
+        <p>Copyright © 2023 JamieYau</p>
+        <a href="https://github.com/JamieYau">
+          <i class="fab fa-github fa-fade"></i>
+        </a>
+      </footer>
+    </div>
+  </body>
 </html>
