@@ -117,5 +117,32 @@ describe("Project", () => {
         project.removeTodo(id);
       }).toThrow("Todo not found.");
     });
+
+    test("removes multiple todos from the todos array", () => {
+      // Arrange
+      const todo1 = new Todo(
+        "Buy groceries",
+        "Remember to buy milk, eggs, and vegetables.",
+        "2023-08-31",
+        "High"
+      );
+      const todo2 = new Todo(
+        "Do laundry",
+        "Remember to separate the whites and colors.",
+        "2023-08-31",
+        "High"
+      );
+      project.addTodo(todo1);
+      project.addTodo(todo2);
+      const id1 = todo1.id;
+      const id2 = todo2.id;
+      // Act
+      project.removeTodo(id1);
+      project.removeTodo(id2);
+      // Assert
+      expect(project.todos.length).toBe(0);
+      expect(project.todos).not.toContain(todo1);
+      expect(project.todos).not.toContain(todo2);
+    });
   });
 });
