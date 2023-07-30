@@ -11,6 +11,20 @@ describe("Project", () => {
       // Assert
       expect(project.title).toBe("My Project");
     });
+
+    test("throws an error if the title is empty", () => {
+      // Arrange
+      const title = "";
+      // Act & Assert
+      expect(() => {
+        new Project(title);
+      }).toThrow("Title cannot be empty.");
+    });
+
+    test("creates a new project with an empty todos array", () => {
+      // Assert
+      expect(project.todos).toEqual([]);
+    });
   });
 
   describe("setTitle", () => {
@@ -21,6 +35,15 @@ describe("Project", () => {
       project.setTitle(newTitle);
       // Assert
       expect(project.title).toBe(newTitle);
+    });
+
+    test("throws an error if the title is empty", () => {
+      // Arrange
+      const newTitle = "";
+      // Act & Assert
+      expect(() => {
+        project.setTitle(newTitle);
+      }).toThrow("Title cannot be empty.");
     });
   });
 });
