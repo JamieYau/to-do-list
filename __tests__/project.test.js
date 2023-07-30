@@ -186,4 +186,43 @@ describe("Project", () => {
     });
   });
 
+  describe("filterTodosByCompleteness", () => {
+    test("filters completed todos correctly", () => {
+      // Arrange
+      const todo1 = new Todo("Todo 1", "Description", "2023-08-31", "High");
+      const todo2 = new Todo("Todo 2", "Description", "2023-08-31", "Medium");
+      const todo3 = new Todo("Todo 3", "Description", "2023-08-31", "Low");
+      todo1.toggleComplete(); // Mark todo1 as completed
+      project.addTodo(todo1);
+      project.addTodo(todo2);
+      project.addTodo(todo3);
+
+      // Act
+      const completedTodos = project.filterTodosByCompleteStatus(true);
+
+      // Assert
+      expect(completedTodos).toContain(todo1);
+      expect(completedTodos).not.toContain(todo2);
+      expect(completedTodos).not.toContain(todo3);
+    });
+
+    test("filters incomplete todos correctly", () => {
+      // Arrange
+      const todo1 = new Todo("Todo 1", "Description", "2023-08-31", "High");
+      const todo2 = new Todo("Todo 2", "Description", "2023-08-31", "Medium");
+      const todo3 = new Todo("Todo 3", "Description", "2023-08-31", "Low");
+      todo2.toggleComplete(); // Mark todo2 as completed
+      project.addTodo(todo1);
+      project.addTodo(todo2);
+      project.addTodo(todo3);
+
+      // Act
+      const incompleteTodos = project.filterTodosByCompleteStatus(false);
+
+      // Assert
+      expect(incompleteTodos).toContain(todo1);
+      expect(incompleteTodos).not.toContain(todo2);
+      expect(incompleteTodos).toContain(todo3);
+    });
+  });
 });

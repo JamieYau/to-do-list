@@ -42,6 +42,11 @@ class Project {
     }
     this.#todos.splice(index, 1);
   }
+
+  filterTodosByCompleteStatus(isComplete) {
+    return this.#todos.filter((todo) => todo.isComplete === isComplete);
+  }
+
 }
 
 export default Project;
