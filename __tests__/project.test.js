@@ -32,7 +32,7 @@ describe("Project", () => {
       // Arrange
       const newTitle = "My New Project";
       // Act
-      project.setTitle(newTitle);
+      project.title = newTitle;
       // Assert
       expect(project.title).toBe(newTitle);
     });
@@ -40,7 +40,7 @@ describe("Project", () => {
     test("throws an error if the title is empty", () => {
       // Arrange & Act & Assert
       expect(() => {
-        project.setTitle("");
+        project.title = "";
       }).toThrow("Title cannot be empty.");
     });
   });
@@ -185,4 +185,5 @@ describe("Project", () => {
       }).toThrow("Todo not found.");
     });
   });
+
 });

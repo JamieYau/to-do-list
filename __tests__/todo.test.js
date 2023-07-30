@@ -31,7 +31,7 @@ describe("Todo", () => {
       const todo = new Todo(
         `Title ${i}`,
         `Description ${i}`,
-        `2023-08-31`,
+        new Date("2023-08-31"),
         `High`
       );
       todos.push(todo);
@@ -47,9 +47,16 @@ describe("Todo", () => {
       // Arrange
       const newTitle = "Buy vegetables";
       // Act
-      todo.setTitle(newTitle);
+      todo.title = newTitle;
       // Assert
       expect(todo.title).toBe(newTitle);
+    });
+
+    test("throws an error if the title is empty", () => {
+      // Act & Assert
+      expect(() => {
+        todo.title = "";
+      }).toThrow("Title cannot be empty.");
     });
   });
 
@@ -58,7 +65,7 @@ describe("Todo", () => {
       // Arrange
       const newDescription = "Remember to buy milk, eggs, and vegetables.";
       // Act
-      todo.setDescription(newDescription);
+      todo.description = newDescription;
       // Assert
       expect(todo.description).toBe(newDescription);
     });
@@ -69,35 +76,29 @@ describe("Todo", () => {
       // Arrange
       const newDueDate = new Date("2023-08-31");
       // Act
-      todo.setDueDate(newDueDate);
+      todo.dueDate = newDueDate;
       // Assert
       expect(todo.dueDate).toBe(newDueDate);
     });
 
     test("throws an error if the due date is not a valid Date object", () => {
-      // Arrange
-      const invalidDueDate = "2023-08-31"; // Not a Date object
-
       // Act & Assert
       expect(() => {
-        todo.setDueDate(invalidDueDate);
+        todo.dueDate = "2023-08-31"; // Not a Date object
       }).toThrow("Due date must be a valid Date object.");
     });
 
     test("throws an error if the due date is in the past", () => {
-      // Arrange
-      const pastDueDate = new Date("2020-01-01");
-
       // Act & Assert
       expect(() => {
-        todo.setDueDate(pastDueDate);
+        todo.dueDate = new Date("2020-01-01");
       }).toThrow("Due date must be in the present or future.");
     });
 
     test("Todo setDueDate method throws error for empty due date", () => {
-      // Arrange & Act & Assert
+      // Act & Assert
       expect(() => {
-        todo.setDueDate("");
+        todo.dueDate = "";
       }).toThrow("Due date must be a valid Date object.");
     });
   });
@@ -107,38 +108,36 @@ describe("Todo", () => {
       // Arrange
       const newPriority = "Low";
       // Act
-      todo.setPriority(newPriority);
+      todo.priority = newPriority;
       // Assert
       expect(todo.priority).toBe(newPriority);
     });
 
     test("throws an error if the priority is not valid", () => {
-      // Arrange
-      const newPriority = "Invalid";
       // Act & Assert
       expect(() => {
-        todo.setPriority(newPriority);
+        todo.priority = "Invalid";
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
 
     test("Todo setPriority method throws error for empty priority", () => {
-      // Arrange & Act & Assert
+      // Act & Assert
       expect(() => {
-        todo.setPriority("");
+        todo.priority = "";
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
 
     test("Todo setPriority method throws error for null priority", () => {
-      // Arrange & Act & Assert
+      // Act & Assert
       expect(() => {
-        todo.setPriority(null);
+        todo.priority = null;
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
 
     test("Todo setPriority method throws error for undefined priority", () => {
-      // Arrange & Act & Assert
+      // Act & Assert
       expect(() => {
-        todo.setPriority(undefined);
+        todo.priority = undefined;
       }).toThrow("Priority must be either High, Medium, or Low.");
     });
   });
