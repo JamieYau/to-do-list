@@ -14,6 +14,10 @@ class Project {
     }
     this.title = title;
   }
+
+  addTodo(todo) {
+    this.todos.push(todo);
+  }
 }
 
 export default Project;

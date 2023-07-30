@@ -46,4 +46,16 @@ describe("Project", () => {
       }).toThrow("Title cannot be empty.");
     });
   });
+
+  describe("addTodo", () => {
+    test("adds a todo to the todos array", () => {
+      // Arrange
+      const todo = "My new todo";
+      // Act
+      project.addTodo(todo);
+      // Assert
+      expect(project.todos).toContain(todo);
+    });
+    
+  });
 });
