@@ -108,5 +108,14 @@ describe("Project", () => {
       expect(project.todos.length).toBe(0);
       expect(project.todos).not.toContain(todo);
     });
+
+    test("throws an error if the todo is not found", () => {
+      // Arrange
+      const id = "123";
+      // Act & Assert
+      expect(() => {
+        project.removeTodo(id);
+      }).toThrow("Todo not found.");
+    });
   });
 });
