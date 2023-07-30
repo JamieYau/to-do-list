@@ -1,4 +1,5 @@
 import Project from "../src/modules/project";
+import Todo from "../src/modules/todo";
 
 describe("Project", () => {
   let project;
@@ -50,12 +51,25 @@ describe("Project", () => {
   describe("addTodo", () => {
     test("adds a todo to the todos array", () => {
       // Arrange
-      const todo = "My new todo";
+      const todo = new Todo(
+        "Buy groceries",
+        "Remember to buy milk, eggs, and vegetables.",
+        "2023-08-31",
+        "High"
+      );
       // Act
       project.addTodo(todo);
       // Assert
       expect(project.todos).toContain(todo);
     });
-    
+
+    test("throws an error if the todo is not a Todo object", () => {
+      // Arrange
+      const todo = "Buy groceries";
+      // Act & Assert
+      expect(() => {
+        project.addTodo(todo);
+      }).toThrow("You can only add Todo objects to a project.");
+    });
   });
 });

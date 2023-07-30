@@ -1,3 +1,5 @@
+import Todo from "./todo";
+
 class Project {
   constructor(title) {
     if (title === "") {
@@ -16,6 +18,9 @@ class Project {
   }
 
   addTodo(todo) {
+    if (!(todo instanceof Todo)) {
+      throw new Error("You can only add Todo objects to a project.");
+    }
     this.todos.push(todo);
   }
 }
