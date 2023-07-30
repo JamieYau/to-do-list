@@ -19,6 +19,27 @@ describe("Todo", () => {
     expect(todo.dueDate).toBe(dueDate);
     expect(todo.priority).toBe(priority);
     expect(todo.isComplete).toBe(false);
+    expect(todo.id).toBeDefined();
+  });
+
+  test("constructor generates unique IDs", () => {
+    // Arrange
+    const todos = [];
+
+    // Act & Assert
+    for (let i = 0; i < 1000; i++) {
+      const todo = new Todo(
+        `Title ${i}`,
+        `Description ${i}`,
+        `2023-08-31`,
+        `High`
+      );
+      todos.push(todo);
+    }
+
+    // Check for uniqueness
+    const idsSet = new Set(todos.map((todo) => todo.id));
+    expect(idsSet.size).toBe(todos.length);
   });
 
   describe("setTitle", () => {
@@ -80,7 +101,7 @@ describe("Todo", () => {
       }).toThrow("Due date must be a valid Date object.");
     });
   });
-  
+
   describe("setPriority", () => {
     test("updates the priority correctly", () => {
       // Arrange
@@ -134,5 +155,4 @@ describe("Todo", () => {
       expect(todo.isComplete).toBe(!expected);
     });
   });
-
 });

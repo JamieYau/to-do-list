@@ -1,5 +1,12 @@
+import { v4 as uuidv4 } from "uuid";
+
 class Todo {
   constructor(title, description, dueDate, priority) {
+    if (title === "") {
+      throw new Error("Title cannot be empty.");
+    }
+
+    this.id = uuidv4();
     this.title = title;
     this.description = description;
     this.dueDate = dueDate instanceof Date ? dueDate : new Date(dueDate);
@@ -8,6 +15,9 @@ class Todo {
   }
 
   setTitle(title) {
+    if (title === "") {
+      throw new Error("Title cannot be empty.");
+    }
     this.title = title;
   }
 
