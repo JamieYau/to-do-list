@@ -225,4 +225,32 @@ describe("Project", () => {
       expect(incompleteTodos).toContain(todo3);
     });
   });
+
+  describe("filterTodosByPriority", () => {
+    test("filters todos by priority correctly", () => {
+      // Arrange
+      const todo1 = new Todo("Todo 1", "Description", "2023-08-31", "High");
+      const todo2 = new Todo("Todo 2", "Description", "2023-08-31", "Medium");
+      const todo3 = new Todo("Todo 3", "Description", "2023-08-31", "Low");
+      project.addTodo(todo1);
+      project.addTodo(todo2);
+      project.addTodo(todo3);
+
+      // Act
+      const highPriorityTodos = project.filterTodosByPriority("High");
+      const mediumPriorityTodos = project.filterTodosByPriority("Medium");
+      const lowPriorityTodos = project.filterTodosByPriority("Low");
+
+      // Assert
+      expect(highPriorityTodos).toContain(todo1);
+      expect(highPriorityTodos).not.toContain(todo2);
+      expect(highPriorityTodos).not.toContain(todo3);
+      expect(mediumPriorityTodos).not.toContain(todo1);
+      expect(mediumPriorityTodos).toContain(todo2);
+      expect(mediumPriorityTodos).not.toContain(todo3);
+      expect(lowPriorityTodos).not.toContain(todo1);
+      expect(lowPriorityTodos).not.toContain(todo2);
+      expect(lowPriorityTodos).toContain(todo3);
+    });
+  });
 });

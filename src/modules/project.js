@@ -47,6 +47,9 @@ class Project {
     return this.#todos.filter((todo) => todo.isComplete === isComplete);
   }
 
+  filterTodosByPriority(priority) {
+    return this.#todos.filter((todo) => todo.priority === priority);
+  }
 }
 
 export default Project;
