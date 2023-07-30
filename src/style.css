@@ -8,6 +8,9 @@
   --border-radius: 5px;
   --border: 1px solid #e5e5e5;
   --box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  --header-font-size: 32px;
+  --header-padding: 20px;
+  --header-height: calc(var(--header-font-size) + 2 * var(--header-padding));
   --foooter-font-size: 1rem;
   --footer-padding: 0.5rem;
   --footer-height: calc(var(--foooter-font-size) + 2 * var(--footer-padding));
@@ -39,14 +42,16 @@ body {
 
 /* Header */
 header {
+  height: var(--header-height);
   background-color: var(--primary-color);
-  padding: 20px 10px;
+  padding: var(--header-padding);
 }
 
 /* Main */
 main {
   display: grid;
   grid-template-columns: 300px 2fr;
+  height: calc(100vh - calc(var(--header-height) + var(--footer-height)));
 }
 
 /* Sidebar */
@@ -55,6 +60,7 @@ nav {
   display: grid;
   grid-template-rows: auto 1fr;
   background-color: #eaeaea;
+  overflow-y: auto;
 }
 
 section {
@@ -71,6 +77,7 @@ nav ul li {
 #content {
   grid-column: 2/3;
   padding: 2rem 10rem;
+  overflow-y: auto;
 }
 
 #project-name {
