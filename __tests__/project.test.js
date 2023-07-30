@@ -71,5 +71,28 @@ describe("Project", () => {
         project.addTodo(todo);
       }).toThrow("You can only add Todo objects to a project.");
     });
+
+    test("add multiple todos to the todos array", () => {
+      // Arrange
+      const todo1 = new Todo(
+        "Buy groceries",
+        "Remember to buy milk, eggs, and vegetables.",
+        "2023-08-31",
+        "High"
+      );
+      const todo2 = new Todo(
+        "Do laundry",
+        "Remember to separate the whites and colors.",
+        "2023-08-31",
+        "High"
+      );
+      // Act
+      project.addTodo(todo1);
+      project.addTodo(todo2);
+      // Assert
+      expect(project.todos.length).toBe(2);
+      expect(project.todos).toContain(todo1);
+      expect(project.todos).toContain(todo2);
+    });
   });
 });
