@@ -3,6 +3,7 @@ import Todo from "../src/modules/todo";
 
 describe("Project", () => {
   let project;
+
   beforeEach(() => {
     project = new Project("My Project");
   });
@@ -14,11 +15,9 @@ describe("Project", () => {
     });
 
     test("throws an error if the title is empty", () => {
-      // Arrange
-      const title = "";
-      // Act & Assert
+      // Arrange & Act & Assert
       expect(() => {
-        new Project(title);
+        new Project("");
       }).toThrow("Title cannot be empty.");
     });
 
@@ -39,11 +38,9 @@ describe("Project", () => {
     });
 
     test("throws an error if the title is empty", () => {
-      // Arrange
-      const newTitle = "";
-      // Act & Assert
+      // Arrange & Act & Assert
       expect(() => {
-        project.setTitle(newTitle);
+        project.setTitle("");
       }).toThrow("Title cannot be empty.");
     });
   });
@@ -64,11 +61,9 @@ describe("Project", () => {
     });
 
     test("throws an error if the todo is not a Todo object", () => {
-      // Arrange
-      const todo = "Buy groceries";
-      // Act & Assert
+      // Arrange & Act & Assert
       expect(() => {
-        project.addTodo(todo);
+        project.addTodo("Buy groceries");
       }).toThrow("You can only add Todo objects to a project.");
     });
 
@@ -93,6 +88,25 @@ describe("Project", () => {
       expect(project.todos.length).toBe(2);
       expect(project.todos).toContain(todo1);
       expect(project.todos).toContain(todo2);
+    });
+  });
+
+  describe("removeTodo", () => {
+    test("removes a todo from the todos array", () => {
+      // Arrange
+      const todo = new Todo(
+        "Buy groceries",
+        "Remember to buy milk, eggs, and vegetables.",
+        "2023-08-31",
+        "High"
+      );
+      project.addTodo(todo);
+      const id = todo.id;
+      // Act
+      project.removeTodo(id);
+      // Assert
+      expect(project.todos.length).toBe(0);
+      expect(project.todos).not.toContain(todo);
     });
   });
 });

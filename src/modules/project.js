@@ -23,6 +23,14 @@ class Project {
     }
     this.todos.push(todo);
   }
+
+  removeTodo(id) {
+    const index = this.todos.findIndex((todo) => todo.id === id);
+    if (index === -1) {
+      throw new Error("Todo not found.");
+    }
+    this.todos.splice(index, 1);
+  }
 }
 
 export default Project;
