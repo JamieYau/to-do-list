@@ -10,26 +10,26 @@
       <header>
         <h1>Todo List</h1>
       </header>
-      <main>
-        <nav>
-          <section>
-            <ul>
-              <li>Inbox</li>
-              <li>Today</li>
-              <li>Upcoming</li>
-            </ul>
-          </section>
-          <section>
-            <h3>Projects</h3>
-            <ul>
-              <li>Project 1</li>
-              <li>Project 2</li>
-              <li>+ Add Project</li>
-            </ul>
-          </section>
-        </nav>
-        <div id="content">
-          <h2 id="project-name">Project Name</h2>
+      <aside id="sidebar">
+        <section>
+          <ul class="sidebar-list">
+            <li>Inbox</li>
+            <li>Today</li>
+            <li>Upcoming</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Projects</h3>
+          <ul id="project-list" class="sidebar-list">
+            <li class="project-list-item">Project 1</li>
+            <li class="project-list-item">Project 2</li>
+            <li id="sidebar-add" class="sidebar-project">+ Add Project</li>
+          </ul>
+        </section>
+      </aside>
+      <main id="content">
+        <h2 id="project-name">Project Name</h2>
+        <div id="todo-wrapper">
           <ul id="todo-list">
             <li class="todo-item">Go gym</li>
             <li class="todo-item">Do homework</li>
