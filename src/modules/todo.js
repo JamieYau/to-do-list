@@ -5,6 +5,7 @@ class Todo {
   #title;
   #description;
   #dueDate;
+  #daysTillDue;
   #priority;
   #isComplete;
 
@@ -17,6 +18,9 @@ class Todo {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate instanceof Date ? dueDate : new Date(dueDate);
+    this.#daysTillDue = Math.ceil(
+      (this.#dueDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
     this.#priority = priority;
     this.#isComplete = false;
   }
@@ -59,6 +63,10 @@ class Todo {
     }
 
     this.#dueDate = dueDate;
+  }
+
+  get daysTillDue() {
+    return this.#daysTillDue;
   }
 
   get priority() {

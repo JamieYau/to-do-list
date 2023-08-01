@@ -4,4 +4,6 @@ import "@fortawesome/fontawesome-free/js/solid.js";
 import "@fortawesome/fontawesome-free/js/regular.js";
 import "@fortawesome/fontawesome-free/js/brands.js";
 
-console.log("Hi")
+import initApp from "./modules/app.js";
+
+document.addEventListener("DOMContentLoaded", initApp);

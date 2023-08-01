@@ -11,87 +11,19 @@
         <h1>Todo List</h1>
       </header>
       <aside id="sidebar">
-        <section>
+        <section id="default-section">
           <ul class="sidebar-list">
             <li>Inbox</li>
             <li>Today</li>
             <li>Upcoming</li>
           </ul>
         </section>
-        <section>
-          <h3>Projects</h3>
-          <ul id="project-list" class="sidebar-list">
-            <li class="project-list-item">Project 1</li>
-            <li class="project-list-item">Project 2</li>
-            <li id="sidebar-add" class="sidebar-project">+ Add Project</li>
-          </ul>
-        </section>
+        <section id="project-section"></section>
       </aside>
       <main id="content">
         <h2 id="project-name">Project Name</h2>
         <div id="todo-wrapper">
-          <ul id="todo-list">
-            <li class="todo-item">
-              <input type="checkbox" class="is-complete" />
-              <div class="title">Go gym</div>
-              <div class="todo-details">
-                <div class="days-till-due">3 days</div>
-                <div class="priority">High</div>
-              </div>
-              <div class="actions">
-                <button class="duedate">
-                  <i class="fas fa-calendar-days"></i>
-                  <span>2020-10-10</span>
-                </button>
-                <button class="edit-todo">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="delete-todo">
-                  <i class="fas fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-            <li class="todo-item">
-              <input type="checkbox" class="is-complete" />
-              <div class="title">HomeWork</div>
-              <div class="todo-details">
-                <div class="days-till-due">1 day</div>
-                <div class="priority">Low</div>
-              </div>
-              <div class="actions">
-                <button class="duedate">
-                  <i class="fas fa-calendar-days"></i>
-                  <span>2020-10-10</span>
-                </button>
-                <button class="edit-todo">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="delete-todo">
-                  <i class="fas fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-            <li class="todo-item">
-              <input type="checkbox" class="is-complete" />
-              <div class="title">Interview</div>
-              <div class="todo-details">
-                <div class="days-till-due">2 days</div>
-                <div class="priority">High</div>
-              </div>
-              <div class="actions">
-                <button class="duedate">
-                  <i class="fas fa-calendar-days"></i>
-                  <span>2020-10-10</span>
-                </button>
-                <button class="edit-todo">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="delete-todo">
-                  <i class="fas fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-          </ul>
+          <ul id="todo-list"></ul>
         </div>
       </main>
       <footer>
