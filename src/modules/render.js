@@ -1,11 +1,8 @@
 const renderPage = () => {
   const container = document.getElementById("container");
   container.innerHTML = "";
-  // Render Overlay
-  const overlay = document.createElement("div");
-  overlay.id = "overlay";
-  overlay.classList.add("hidden");
-  container.appendChild(overlay);
+  // Render Modal
+  renderModal();
   // Render the header
   const header = document.createElement("header");
   header.id = "header";
@@ -172,26 +169,45 @@ const renderTodos = (project) => {
   content.appendChild(todoWrapper);
 };
 
-// Render the todo descripition and details in a popup
-const renderTodoDetails = (todo) => {
-  const content = document.getElementById("content");
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-  const popUp = document.createElement("div");
-  popUp.id = "todo-popup";
-  // Header
-  const header = document.createElement("div");
-  header.id = "todo-popup-header";
-  // Title
-  const todoTitle = document.createElement("h2");
-  todoTitle.id = "todo-title";
-  todoTitle.textContent = todo.title;
-  // Close button
-  const closeBtn = document.createElement("button");
-  closeBtn.id = "close-btn";
+// Render Modal
+const renderModal = () => {
+  const overlay = document.createElement("div");
+  overlay.id = "overlay";
+  overlay.classList.add("hidden");
+  const modal = document.createElement("div");
+  modal.id = "modal";
+  const modalHeader = document.createElement("div");
+  modalHeader.classList = "modal-header";
+  const modalTitle = document.createElement("h2");
+  modalTitle.id = "modal-title";
+  const closeButton = document.createElement("button");
+  closeButton.id = "close-btn";
   const closeBtnIcon = document.createElement("i");
   closeBtnIcon.classList.add("fas", "fa-xmark", "fa-xl");
-  closeBtn.appendChild(closeBtnIcon);
+  closeButton.appendChild(closeBtnIcon);
+  modalHeader.appendChild(modalTitle);
+  modalHeader.appendChild(closeButton);
+  modal.appendChild(modalHeader);
+
+  const modalContent = document.createElement("div");
+  modalContent.id = "modal-content";
+  modal.appendChild(modalContent);
+
+  overlay.appendChild(modal);
+  container.appendChild(overlay);
+};
+
+// Render the todo descripition and details in a popup
+const renderTodoDetails = (todo) => {
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
+  // Title
+  const todoTitle = document.getElementById("modal-title");
+  todoTitle.textContent = todo.title;
+  // Content
+  const content = document.getElementById("modal-content");
+  content.innerHTML = "";
+  // Description
   const todoDescription = document.createElement("p");
   todoDescription.id = "todo-description";
   todoDescription.textContent = todo.description;
@@ -228,18 +244,14 @@ const renderTodoDetails = (todo) => {
   deleteTodoIcon.classList.add("fas", "fa-trash-can");
   deleteTodo.appendChild(deleteTodoIcon);
   // Append all elements to the container
-  header.appendChild(todoTitle);
-  header.appendChild(closeBtn);
-  popUp.appendChild(header);
-  popUp.appendChild(todoDescription);
+  content.appendChild(todoDescription);
   tagContainer.appendChild(todoPriority);
   tagContainer.appendChild(todoDaysTillDue);
-  popUp.appendChild(tagContainer);
-  popUp.appendChild(todoDueDate);
+  content.appendChild(tagContainer);
+  content.appendChild(todoDueDate);
   actionsContainer.appendChild(editTodo);
   actionsContainer.appendChild(deleteTodo);
-  popUp.appendChild(actionsContainer);
-  content.appendChild(popUp);
+  content.appendChild(actionsContainer);
 };
 
 const getDaysTillDueLabel = (daysTillDue) => {

@@ -186,7 +186,7 @@ header {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-#todo-popup {
+#modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -200,14 +200,14 @@ header {
   background-color: #ffffff;
 }
 
-#todo-popup>#todo-popup-header {
+#modal > .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-#todo-popup>#todo-popup-header>#close-btn {
+#modal > .modal-header > #close-btn {
   border: none;
   background-color: transparent;
   color: #5b5b5b;
