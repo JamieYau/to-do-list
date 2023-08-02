@@ -1,6 +1,11 @@
 import Project from "./project.js";
 import Todo from "./todo.js";
-import { renderPage, renderProjects, renderTodos, renderTodoDetails } from "./render.js";
+import {
+  renderPage,
+  renderProjects,
+  renderTodos,
+  renderTodoDetails,
+} from "./render.js";
 import { generateProjects, generateTodos } from "./utils.js";
 
 const initApp = () => {
@@ -70,6 +75,23 @@ const addTodoListeners = (project) => {
     });
     item.addEventListener("mouseleave", () => {
       item.classList.remove("hover");
+    });
+
+    // Prevent event propagation for buttons
+    const checkbox = item.querySelector(".is-complete");
+    const editButton = item.querySelector(".edit-todo");
+    const deleteButton = item.querySelector(".delete-todo");
+
+    checkbox.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    editButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    deleteButton.addEventListener("click", (event) => {
+      event.stopPropagation();
     });
   });
 };
