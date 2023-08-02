@@ -20,6 +20,13 @@ const addSidebarListeners = (projects) => {
   const projectListItems = document.querySelectorAll(".project-list-item");
   projectListItems.forEach((item) => {
     item.addEventListener("click", () => {
+      // Remove the active class from all project list items
+      projectListItems.forEach((item) => {
+        item.classList.remove("active");
+      });
+      // Add the active class to the clicked project list item
+      item.classList.add("active");
+
       // Get the project ID from the dataset attribute
       const projectId = item.dataset.id;
       // Find the corresponding project object from the projects array
