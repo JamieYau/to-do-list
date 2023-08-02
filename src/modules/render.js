@@ -57,13 +57,16 @@ const renderPage = () => {
 const renderProjects = (projects) => {
   const projectSection = document.getElementById("project-section");
   projectSection.innerHTML = "";
+  // Add the heading
   const heading = document.createElement("h3");
   heading.textContent = "Projects";
   projectSection.appendChild(heading);
+  // Add the project list
   const projectList = document.createElement("ul");
   projectList.id = "project-list";
   projectList.className = "sidebar-list";
   projectSection.appendChild(projectList);
+  // Add the project list items
   projects.forEach((project) => {
     const projectItem = document.createElement("li");
     projectItem.classList.add("project-list-item");
@@ -71,6 +74,7 @@ const renderProjects = (projects) => {
     projectItem.textContent = project.title;
     projectList.appendChild(projectItem);
   });
+  // Add the add project button
   const addProject = document.createElement("div");
   addProject.id = "add-project";
   addProject.classList.add("add-project");
@@ -78,6 +82,7 @@ const renderProjects = (projects) => {
   addProjectIcon.classList.add("fas", "fa-plus");
   const addProjectText = document.createElement("span");
   addProjectText.textContent = " Add Project";
+  // Append all elements to the container
   addProject.appendChild(addProjectIcon);
   addProject.appendChild(addProjectText);
   projectSection.appendChild(addProject);

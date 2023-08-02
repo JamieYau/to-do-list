@@ -1,6 +1,8 @@
 import Todo from "./todo";
+import { v4 as uuidv4 } from "uuid";
 
 class Project {
+  #id;
   #title;
   #todos;
 
@@ -10,6 +12,7 @@ class Project {
     }
 
     this.#title = title;
+    this.#id = uuidv4();
     this.#todos = [];
   }
 
@@ -22,6 +25,10 @@ class Project {
       throw new Error("Title cannot be empty.");
     }
     this.#title = newTitle;
+  }
+
+  get id() {
+    return this.#id;
   }
 
   get todos() {
