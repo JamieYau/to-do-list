@@ -22,27 +22,21 @@ const initApp = () => {
   addTodoListeners(projects[0]);
 };
 
-// Attach event listeners to project list items
 const addSidebarListeners = (projects) => {
   const projectListItems = document.querySelectorAll(".project-list-item");
-  projectListItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      // Remove the active class from all project list items + Add to current
-      projectListItems.forEach((item) => {
-        item.classList.remove("active");
-      });
-      item.classList.add("active");
-      // Get the project ID from the dataset attribute
-      const projectId = item.dataset.id;
-      // Find the corresponding project object from the projects array
-      const selectedProject = projects.find(
-        (project) => project.id === projectId
-      );
-      // Render the todos of the selected project
-      renderTodos(selectedProject);
-      addTodoListeners(selectedProject);
+  const handleProjectItemClick = (projectId) => {
+    projectListItems.forEach((item) => {
+      item.classList.toggle("active", item.dataset.id === projectId);
     });
-    // Add + Remove hover class
+    const selectedProject = projects.find((project) => project.id === projectId);
+    renderTodos(selectedProject);
+    addTodoListeners(selectedProject);
+  };
+  projectListItems.forEach((item) => {
+    const projectId = item.dataset.id;
+    item.addEventListener("click", () => {
+      handleProjectItemClick(projectId);
+    });
     item.addEventListener("mouseenter", () => {
       item.classList.add("hover");
     });
@@ -52,48 +46,50 @@ const addSidebarListeners = (projects) => {
   });
 };
 
-// Attach event listeners to todo list items
+
 const addTodoListeners = (project) => {
   const todoListItems = document.querySelectorAll(".todo-item");
-  todoListItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      // Remove the active class from all todo list items + Add to current
-      todoListItems.forEach((item) => {
-        item.classList.remove("active");
-      });
-      item.classList.add("active");
-      // Get the todo ID from the dataset attribute
-      const todoId = item.dataset.id;
-      // Find the corresponding todo object from the project
-      const selectedTodo = project.todos.find((todo) => todo.id === todoId);
-      // Render the todo details
-      renderTodoDetails(selectedTodo);
+
+  const handleTodoItemClick = (todoId) => {
+    todoListItems.forEach((item) => {
+      item.classList.toggle("active", item.dataset.id === todoId);
     });
-    // Add + Remove hover class
+    const selectedTodo = project.todos.find((todo) => todo.id === todoId);
+    renderTodoDetails(selectedTodo);
+  };
+
+  const handleCheckboxClick = (event, todoId) => {
+    event.stopPropagation();
+    const selectedTodo = project.todos.find((todo) => todo.id === todoId);
+    selectedTodo.toggleComplete();
+    event.target.checked = selectedTodo.isComplete;
+  };
+
+  todoListItems.forEach((item) => {
+    const todoId = item.dataset.id;
+    item.addEventListener("click", () => {
+      handleTodoItemClick(todoId);
+    });
     item.addEventListener("mouseenter", () => {
       item.classList.add("hover");
     });
     item.addEventListener("mouseleave", () => {
       item.classList.remove("hover");
     });
-
-    // Prevent event propagation for buttons
     const checkbox = item.querySelector(".is-complete");
     const editButton = item.querySelector(".edit-todo");
     const deleteButton = item.querySelector(".delete-todo");
-
     checkbox.addEventListener("click", (event) => {
-      event.stopPropagation();
+      handleCheckboxClick(event, todoId);
     });
-
     editButton.addEventListener("click", (event) => {
       event.stopPropagation();
     });
-
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
     });
   });
 };
+
 
 export default initApp;
