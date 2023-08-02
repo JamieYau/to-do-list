@@ -1,3 +1,59 @@
+const renderPage = () => {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+  // Render the header
+  const header = document.createElement("header");
+  header.id = "header";
+  const headerTitle = document.createElement("h1");
+  headerTitle.id = "header-title";
+  headerTitle.textContent = "Todo List";
+  header.appendChild(headerTitle);
+  // Render the sidebar
+  const sidebar = document.createElement("aside");
+  sidebar.id = "sidebar";
+  const defaultSection = document.createElement("section");
+  defaultSection.id = "default-section";
+  const defaultList = document.createElement("ul");
+  defaultList.classList.add("sidebar-list");
+  const defaultInbox = document.createElement("li");
+  defaultInbox.id = "default-inbox";
+  defaultInbox.textContent = "Inbox";
+  const defaultToday = document.createElement("li");
+  defaultToday.id = "default-today";
+  defaultToday.textContent = "Today";
+  const defaultUpcoming = document.createElement("li");
+  defaultUpcoming.id = "default-upcoming";
+  defaultUpcoming.textContent = "Upcoming";
+  defaultList.appendChild(defaultInbox);
+  defaultList.appendChild(defaultToday);
+  defaultList.appendChild(defaultUpcoming);
+  defaultSection.appendChild(defaultList);
+  sidebar.appendChild(defaultSection);
+  const projectSection = document.createElement("section");
+  projectSection.id = "project-section";
+  sidebar.appendChild(projectSection);
+  // Render the content
+  const content = document.createElement("main");
+  content.id = "content";
+  // Render the footer
+  const footer = document.createElement("footer");
+  const footerText = document.createElement("p");
+  footerText.textContent = "© 2023 JamieYau";
+  const footerLink = document.createElement("a");
+  footerLink.href = "https://github.com/JamieYau";
+  const footerIcon = document.createElement("i");
+  footerIcon.classList.add("fab", "fa-github", "fa-fade");
+  footerLink.appendChild(footerIcon);
+  footer.appendChild(footerText);
+  footer.appendChild(footerLink);
+  // Append all elements to the container
+  container.appendChild(header);
+  container.appendChild(sidebar);
+  container.appendChild(content);
+  container.appendChild(footer);
+};
+
+// Renders the projects in the sidebar
 const renderProjects = (projects) => {
   const projectSection = document.getElementById("project-section");
   projectSection.innerHTML = "";
@@ -27,33 +83,20 @@ const renderProjects = (projects) => {
   projectSection.appendChild(addProject);
 };
 
-/* Render the todos for a project in this format:
-<ul id="todo-list">
-            <li class="todo-item">
-              <input type="checkbox" class="is-complete" />
-              <div class="title">Go gym</div>
-              <div class="todo-details">
-                <div class="days-till-due">3 days</div>
-                <div class="priority">High</div>
-              </div>
-              <div class="actions">
-                <button class="duedate">
-                  <i class="fas fa-calendar-days"></i>
-                  <span>2020-10-10</span>
-                </button>
-                <button class="edit-todo">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="delete-todo">
-                  <i class="fas fa-trash-can"></i>
-                </button>
-              </div>
-            </li>
-*/
+// Render the todos for a project
+const renderTodos = (project) => {
+  const content = document.getElementById("content");
+  content.innerHTML = "";
+  const projectName = document.createElement("h2");
+  projectName.id = "project-name";
+  projectName.textContent = project.title;
+  const todoWrapper = document.createElement("div");
+  todoWrapper.id = "todo-wrapper";
 
-const renderTodos = (todos) => {
-  const todoList = document.getElementById("todo-list");
+  const todoList = document.createElement("ul");
+  todoList.id = "todo-list";
   todoList.innerHTML = "";
+  const todos = project.todos;
   todos.forEach((todo) => {
     const todoItem = document.createElement("li");
     todoItem.classList.add("todo-item");
@@ -112,6 +155,9 @@ const renderTodos = (todos) => {
     todoItem.appendChild(actions);
     todoList.appendChild(todoItem);
   });
+  todoWrapper.appendChild(todoList);
+  content.appendChild(projectName);
+  content.appendChild(todoWrapper);
 };
 
 const getDaysTillDueLabel = (daysTillDue) => {
@@ -126,4 +172,4 @@ const getDaysTillDueLabel = (daysTillDue) => {
   }
 };
 
-export { renderProjects, renderTodos };
+export { renderPage, renderProjects, renderTodos };
