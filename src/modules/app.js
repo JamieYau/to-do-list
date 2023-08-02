@@ -32,6 +32,14 @@ const addSidebarListeners = (projects) => {
       const projectNameElement = document.getElementById("project-name");
       projectNameElement.textContent = selectedProject.title;
     });
+    // add hover class
+    item.addEventListener("mouseenter", () => {
+      item.classList.add("hover");
+    });
+
+    item.addEventListener("mouseleave", () => {
+      item.classList.remove("hover");
+    });
   });
 };
 

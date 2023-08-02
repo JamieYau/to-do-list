@@ -71,6 +71,11 @@ header {
 .sidebar-list li {
   padding: 10px 0;
   text-align: start;
+  cursor: pointer;
+}
+
+.hover {
+  background-color: #e5e5e5;
 }
 
 /* Content */
