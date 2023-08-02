@@ -14,6 +14,7 @@ const initApp = () => {
 
   // Add event listeners
   addSidebarListeners(projects);
+  addTodoListeners(projects[0]);
 };
 
 // Attach event listeners to project list items
@@ -34,6 +35,34 @@ const addSidebarListeners = (projects) => {
       );
       // Render the todos of the selected project
       renderTodos(selectedProject);
+      addTodoListeners(selectedProject);
+    });
+    // Add + Remove hover class
+    item.addEventListener("mouseenter", () => {
+      item.classList.add("hover");
+    });
+    item.addEventListener("mouseleave", () => {
+      item.classList.remove("hover");
+    });
+  });
+};
+
+// Attach event listeners to todo list items
+const addTodoListeners = (project) => {
+  const todoListItems = document.querySelectorAll(".todo-item");
+  todoListItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      // Remove the active class from all todo list items + Add to current
+      todoListItems.forEach((item) => {
+        item.classList.remove("active");
+      });
+      item.classList.add("active");
+      // Get the todo ID from the dataset attribute
+      const todoId = item.dataset.id;
+      // Find the corresponding todo object from the project
+      const selectedTodo = project.todos.find((todo) => todo.id === todoId);
+      // Render the todo details
+      //renderTodoDetails(selectedTodo);
     });
     // Add + Remove hover class
     item.addEventListener("mouseenter", () => {

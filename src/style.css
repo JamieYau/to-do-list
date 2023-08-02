@@ -123,6 +123,7 @@ header {
   border-radius: var(--border-radius);
   border: var(--border);
   box-shadow: var(--box-shadow);
+  cursor: pointer;
 }
 
 .todo-item > .is-complete {

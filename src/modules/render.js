@@ -105,6 +105,8 @@ const renderTodos = (project) => {
   todos.forEach((todo) => {
     const todoItem = document.createElement("li");
     todoItem.classList.add("todo-item");
+    // ID
+    todoItem.dataset.id = todo.id;
     // Is complete
     const isComplete = document.createElement("input");
     isComplete.type = "checkbox";

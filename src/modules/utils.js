@@ -56,7 +56,6 @@ const generateTodos = (projects, numberOfTodos) => {
       project.addTodo(todo);
     }
   });
-  console.log(projects);
 };
 
 export { generateProjects, generateTodos };
