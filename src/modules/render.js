@@ -1,6 +1,11 @@
 const renderPage = () => {
   const container = document.getElementById("container");
   container.innerHTML = "";
+  // Render Overlay
+  const overlay = document.createElement("div");
+  overlay.id = "overlay";
+  overlay.classList.add("hidden");
+  container.appendChild(overlay);
   // Render the header
   const header = document.createElement("header");
   header.id = "header";
@@ -118,14 +123,14 @@ const renderTodos = (project) => {
     title.textContent = todo.title;
     const todoDetails = document.createElement("div");
     todoDetails.classList.add("todo-details");
-    // Days till due
-    const daysTillDue = document.createElement("div");
-    daysTillDue.classList.add("days-till-due");
-    daysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
     // Priority
     const priority = document.createElement("div");
     priority.classList.add("priority");
     priority.textContent = todo.priority;
+    // Days till due
+    const daysTillDue = document.createElement("div");
+    daysTillDue.classList.add("days-till-due");
+    daysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
     // Actions
     const actions = document.createElement("div");
     actions.classList.add("actions");
@@ -149,8 +154,8 @@ const renderTodos = (project) => {
 
     todoItem.appendChild(isComplete);
     todoItem.appendChild(title);
-    todoDetails.appendChild(daysTillDue);
     todoDetails.appendChild(priority);
+    todoDetails.appendChild(daysTillDue);
     todoItem.appendChild(todoDetails);
     dueDate.appendChild(dueDateIcon);
     dueDate.appendChild(dueDateText);
@@ -167,6 +172,76 @@ const renderTodos = (project) => {
   content.appendChild(todoWrapper);
 };
 
+// Render the todo descripition and details in a popup
+const renderTodoDetails = (todo) => {
+  const content = document.getElementById("content");
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
+  const popUp = document.createElement("div");
+  popUp.id = "todo-popup";
+  // Header
+  const header = document.createElement("div");
+  header.id = "todo-popup-header";
+  // Title
+  const todoTitle = document.createElement("h2");
+  todoTitle.id = "todo-title";
+  todoTitle.textContent = todo.title;
+  // Close button
+  const closeBtn = document.createElement("button");
+  closeBtn.id = "close-btn";
+  const closeBtnIcon = document.createElement("i");
+  closeBtnIcon.classList.add("fas", "fa-xmark", "fa-xl");
+  closeBtn.appendChild(closeBtnIcon);
+  const todoDescription = document.createElement("p");
+  todoDescription.id = "todo-description";
+  todoDescription.textContent = todo.description;
+  // Tag container
+  const tagContainer = document.createElement("div");
+  tagContainer.id = "tag-container";
+  // Priority
+  const todoPriority = document.createElement("p");
+  todoPriority.id = "todo-priority";
+  todoPriority.textContent = todo.priority;
+  // Days till due
+  const todoDaysTillDue = document.createElement("p");
+  todoDaysTillDue.id = "todo-days-till-due";
+  todoDaysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
+  // Due date
+  const todoDueDate = document.createElement("p");
+  todoDueDate.id = "todo-duedate";
+  todoDueDate.textContent = todo.dueDate.toLocaleDateString();
+  // Actions container
+  const actionsContainer = document.createElement("div");
+  actionsContainer.id = "actions-container";
+  // Edit todo
+  const editTodo = document.createElement("button");
+  editTodo.id = "edit-todo";
+  editTodo.classList.add("edit-todo");
+  const editTodoIcon = document.createElement("i");
+  editTodoIcon.classList.add("fas", "fa-edit");
+  editTodo.appendChild(editTodoIcon);
+  // Delete todo
+  const deleteTodo = document.createElement("button");
+  deleteTodo.id = "delete-todo";
+  deleteTodo.classList.add("delete-todo");
+  const deleteTodoIcon = document.createElement("i");
+  deleteTodoIcon.classList.add("fas", "fa-trash-can");
+  deleteTodo.appendChild(deleteTodoIcon);
+  // Append all elements to the container
+  header.appendChild(todoTitle);
+  header.appendChild(closeBtn);
+  popUp.appendChild(header);
+  popUp.appendChild(todoDescription);
+  tagContainer.appendChild(todoPriority);
+  tagContainer.appendChild(todoDaysTillDue);
+  popUp.appendChild(tagContainer);
+  popUp.appendChild(todoDueDate);
+  actionsContainer.appendChild(editTodo);
+  actionsContainer.appendChild(deleteTodo);
+  popUp.appendChild(actionsContainer);
+  content.appendChild(popUp);
+};
+
 const getDaysTillDueLabel = (daysTillDue) => {
   if (daysTillDue === 1) {
     return "1 day left";
@@ -179,4 +254,4 @@ const getDaysTillDueLabel = (daysTillDue) => {
   }
 };
 
-export { renderPage, renderProjects, renderTodos };
+export { renderPage, renderProjects, renderTodos, renderTodoDetails };

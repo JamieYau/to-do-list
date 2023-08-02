@@ -1,6 +1,6 @@
 import Project from "./project.js";
 import Todo from "./todo.js";
-import { renderPage, renderProjects, renderTodos } from "./render.js";
+import { renderPage, renderProjects, renderTodos, renderTodoDetails } from "./render.js";
 import { generateProjects, generateTodos } from "./utils.js";
 
 const initApp = () => {
@@ -62,7 +62,7 @@ const addTodoListeners = (project) => {
       // Find the corresponding todo object from the project
       const selectedTodo = project.todos.find((todo) => todo.id === todoId);
       // Render the todo details
-      //renderTodoDetails(selectedTodo);
+      renderTodoDetails(selectedTodo);
     });
     // Add + Remove hover class
     item.addEventListener("mouseenter", () => {
