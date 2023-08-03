@@ -20,6 +20,7 @@ const initApp = () => {
   // Add event listeners
   addSidebarListeners(projects);
   addTodoListeners(projects[0]);
+  addModalListeners();
 };
 
 const addSidebarListeners = (projects) => {
@@ -28,7 +29,9 @@ const addSidebarListeners = (projects) => {
     projectListItems.forEach((item) => {
       item.classList.toggle("active", item.dataset.id === projectId);
     });
-    const selectedProject = projects.find((project) => project.id === projectId);
+    const selectedProject = projects.find(
+      (project) => project.id === projectId
+    );
     renderTodos(selectedProject);
     addTodoListeners(selectedProject);
   };
@@ -45,7 +48,6 @@ const addSidebarListeners = (projects) => {
     });
   });
 };
-
 
 const addTodoListeners = (project) => {
   const todoListItems = document.querySelectorAll(".todo-item");
@@ -91,5 +93,21 @@ const addTodoListeners = (project) => {
   });
 };
 
+const addModalListeners = () => {
+  const overlay = document.getElementById("overlay");
+  const modalClose = document.getElementById("close-btn");
+
+  const closeModal = () => {
+    overlay.classList.add("hidden");
+    const todos = document.querySelectorAll(".todo-item");
+    todos.forEach((todo) => {
+      todo.classList.remove("active");
+    });
+  };
+  // close modal and remove active class from todo
+  modalClose.addEventListener("click", () => {
+    closeModal();
+  });
+};
 
 export default initApp;
