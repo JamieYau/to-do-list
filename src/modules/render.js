@@ -257,6 +257,8 @@ const renderTodoDetails = (todo) => {
 
 // Render the edit todo form
 const renderEditTodo = (todo) => {
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
   const content = document.getElementById("modal-content");
   content.innerHTML = "";
   // Title
@@ -309,4 +311,10 @@ const renderEditTodo = (todo) => {
   content.appendChild(actionsContainer);
 };
 
-export { renderPage, renderProjects, renderTodos, renderTodoDetails, renderEditTodo };
+export {
+  renderPage,
+  renderProjects,
+  renderTodos,
+  renderTodoDetails,
+  renderEditTodo,
+};

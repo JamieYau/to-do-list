@@ -88,6 +88,10 @@ const addTodoListeners = (project) => {
     });
     editButton.addEventListener("click", (event) => {
       event.stopPropagation();
+      const selectedTodo = project.todos.find((todo) => todo.id === todoId);
+      renderEditTodo(selectedTodo);
+      addSaveTodoListener(selectedTodo, project);
+      addCancelEditListener(selectedTodo, project);
     });
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
