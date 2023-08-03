@@ -5,6 +5,7 @@ import {
   renderProjects,
   renderTodos,
   renderTodoDetails,
+  renderEditTodo,
 } from "./render.js";
 import { generateProjects, generateTodos } from "./utils.js";
 
@@ -58,6 +59,12 @@ const addTodoListeners = (project) => {
     });
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     renderTodoDetails(selectedTodo);
+    // Edit todo
+    const editBtn = document.getElementById("edit-todo");
+    editBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      renderEditTodo(selectedTodo);
+    });
   };
 
   const handleCheckboxClick = (event, todoId) => {
@@ -95,6 +102,7 @@ const addTodoListeners = (project) => {
 
 const addModalListeners = () => {
   const overlay = document.getElementById("overlay");
+  const modal = document.getElementById("modal");
   // Close modal and Remove active class from todo
   const modalClose = document.getElementById("close-btn");
   const closeModal = () => {
@@ -111,7 +119,6 @@ const addModalListeners = () => {
     closeModal();
   });
   // Prevent modal from closing when clicking inside modal
-  const modal = document.getElementById("modal");
   modal.addEventListener("click", (event) => {
     event.stopPropagation();
   });

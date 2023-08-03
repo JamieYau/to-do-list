@@ -189,7 +189,6 @@ const renderModal = () => {
   modalHeader.appendChild(modalTitle);
   modalHeader.appendChild(closeButton);
   modal.appendChild(modalHeader);
-
   const modalContent = document.createElement("div");
   modalContent.id = "modal-content";
   modal.appendChild(modalContent);
@@ -256,6 +255,68 @@ const renderTodoDetails = (todo) => {
   content.appendChild(actionsContainer);
 };
 
+// Render the edit todo form
+const renderEditTodo = (todo) => {
+  const content = document.getElementById("modal-content");
+  content.innerHTML = "";
+  // Title
+  const todoTitle = document.createElement("input");
+  todoTitle.id = "todo-title";
+  todoTitle.type = "text";
+  todoTitle.value = todo.title;
+  // Description
+  const todoDescription = document.createElement("textarea");
+  todoDescription.id = "todo-description";
+  todoDescription.textContent = todo.description;
+  // Due date
+  const todoDueDate = document.createElement("input");
+  todoDueDate.id = "todo-duedate";
+  todoDueDate.type = "date";
+  todoDueDate.value = formatDateToISO(todo.dueDate);
+  // Priority
+  const todoPriority = document.createElement("select");
+  todoPriority.id = "todo-priority";
+  const priorityOptions = ["Low", "Medium", "High"];
+  priorityOptions.forEach((option) => {
+    const priorityOption = document.createElement("option");
+    priorityOption.value = option;
+    priorityOption.textContent = option;
+    if (option === todo.priority) {
+      priorityOption.selected = true;
+    }
+    todoPriority.appendChild(priorityOption);
+  });
+  // Actions container
+  const actionsContainer = document.createElement("div");
+  actionsContainer.id = "actions-container";
+  // Cancel
+  const cancelEdit = document.createElement("button");
+  cancelEdit.id = "cancel-edit";
+  cancelEdit.classList.add("cancel-edit");
+  cancelEdit.textContent = "Cancel";
+  // Save
+  const saveEdit = document.createElement("button");
+  saveEdit.id = "save-edit";
+  saveEdit.classList.add("save-edit");
+  saveEdit.textContent = "Save";
+  // Append all elements to the container
+  content.appendChild(todoTitle);
+  content.appendChild(todoDescription);
+  content.appendChild(todoDueDate);
+  content.appendChild(todoPriority);
+  actionsContainer.appendChild(cancelEdit);
+  actionsContainer.appendChild(saveEdit);
+  content.appendChild(actionsContainer);
+};
+
+const formatDateToISO = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+
 const getDaysTillDueLabel = (daysTillDue) => {
   if (daysTillDue === 1) {
     return "1 day left";
@@ -268,4 +329,4 @@ const getDaysTillDueLabel = (daysTillDue) => {
   }
 };
 
-export { renderPage, renderProjects, renderTodos, renderTodoDetails };
+export { renderPage, renderProjects, renderTodos, renderTodoDetails, renderEditTodo };

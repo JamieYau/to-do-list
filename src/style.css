@@ -231,6 +231,11 @@ header {
   color: #5b5b5b;
 }
 
+#modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
 #todo-description {
   margin-bottom: 10px;
 }
