@@ -128,7 +128,7 @@ const renderTodos = (project) => {
     // Days till due
     const daysTillDue = document.createElement("div");
     daysTillDue.classList.add("days-till-due");
-    daysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
+    daysTillDue.textContent = todo.getDaysTillDueLabel();
     // Actions
     const actions = document.createElement("div");
     actions.classList.add("actions");
@@ -226,7 +226,7 @@ const renderTodoDetails = (todo) => {
   // Days till due
   const todoDaysTillDue = document.createElement("p");
   todoDaysTillDue.id = "todo-days-till-due";
-  todoDaysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
+  todoDaysTillDue.textContent = todo.getDaysTillDueLabel();
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
@@ -272,7 +272,7 @@ const renderEditTodo = (todo) => {
   const todoDueDate = document.createElement("input");
   todoDueDate.id = "todo-duedate";
   todoDueDate.type = "date";
-  todoDueDate.value = formatDateToISO(todo.dueDate);
+  todoDueDate.value = todo.formatDateToISO();
   // Priority
   const todoPriority = document.createElement("select");
   todoPriority.id = "todo-priority";
@@ -307,26 +307,6 @@ const renderEditTodo = (todo) => {
   actionsContainer.appendChild(cancelEdit);
   actionsContainer.appendChild(saveEdit);
   content.appendChild(actionsContainer);
-};
-
-const formatDateToISO = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
-
-const getDaysTillDueLabel = (daysTillDue) => {
-  if (daysTillDue === 1) {
-    return "1 day left";
-  } else if (daysTillDue === 0) {
-    return "Due today";
-  } else if (daysTillDue < 0) {
-    return "Overdue";
-  } else {
-    return `${daysTillDue} days left`;
-  }
 };
 
 export { renderPage, renderProjects, renderTodos, renderTodoDetails, renderEditTodo };
