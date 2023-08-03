@@ -124,6 +124,7 @@ const renderTodos = (project) => {
     const priority = document.createElement("div");
     priority.classList.add("priority");
     priority.textContent = todo.priority;
+    priority.classList = todo.priority.toLowerCase();
     // Days till due
     const daysTillDue = document.createElement("div");
     daysTillDue.classList.add("days-till-due");
@@ -211,6 +212,10 @@ const renderTodoDetails = (todo) => {
   const todoDescription = document.createElement("p");
   todoDescription.id = "todo-description";
   todoDescription.textContent = todo.description;
+  // Due date
+  const todoDueDate = document.createElement("p");
+  todoDueDate.id = "todo-duedate";
+  todoDueDate.textContent = todo.dueDate.toLocaleDateString();
   // Tag container
   const tagContainer = document.createElement("div");
   tagContainer.id = "tag-container";
@@ -218,14 +223,11 @@ const renderTodoDetails = (todo) => {
   const todoPriority = document.createElement("p");
   todoPriority.id = "todo-priority";
   todoPriority.textContent = todo.priority;
+  todoPriority.classList = todo.priority.toLowerCase();
   // Days till due
   const todoDaysTillDue = document.createElement("p");
   todoDaysTillDue.id = "todo-days-till-due";
   todoDaysTillDue.textContent = getDaysTillDueLabel(todo.daysTillDue);
-  // Due date
-  const todoDueDate = document.createElement("p");
-  todoDueDate.id = "todo-duedate";
-  todoDueDate.textContent = todo.dueDate.toLocaleDateString();
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
@@ -245,10 +247,10 @@ const renderTodoDetails = (todo) => {
   deleteTodo.appendChild(deleteTodoIcon);
   // Append all elements to the container
   content.appendChild(todoDescription);
+  content.appendChild(todoDueDate);
   tagContainer.appendChild(todoPriority);
   tagContainer.appendChild(todoDaysTillDue);
   content.appendChild(tagContainer);
-  content.appendChild(todoDueDate);
   actionsContainer.appendChild(editTodo);
   actionsContainer.appendChild(deleteTodo);
   content.appendChild(actionsContainer);
