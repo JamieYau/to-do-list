@@ -64,6 +64,21 @@ const addTodoListeners = (project) => {
     editBtn.addEventListener("click", (event) => {
       event.stopPropagation();
       renderEditTodo(selectedTodo);
+      // Save todo
+      const saveBtn = document.getElementById("save-edit");
+      saveBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const title = document.getElementById("todo-title").value;
+        const description = document.getElementById("todo-description").value;
+        const dueDate = document.getElementById("todo-duedate").value;
+        const priority = document.getElementById("todo-priority").value;
+        selectedTodo.title = title;
+        selectedTodo.description = description;
+        selectedTodo.dueDate = new Date(dueDate);
+        selectedTodo.priority = priority;
+        renderTodoDetails(selectedTodo);
+        renderTodos(project);
+      });
     });
   };
 
