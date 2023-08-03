@@ -95,8 +95,8 @@ const addTodoListeners = (project) => {
 
 const addModalListeners = () => {
   const overlay = document.getElementById("overlay");
+  // Close modal and Remove active class from todo
   const modalClose = document.getElementById("close-btn");
-
   const closeModal = () => {
     overlay.classList.add("hidden");
     const todos = document.querySelectorAll(".todo-item");
@@ -104,9 +104,16 @@ const addModalListeners = () => {
       todo.classList.remove("active");
     });
   };
-  // close modal and remove active class from todo
   modalClose.addEventListener("click", () => {
     closeModal();
+  });
+  overlay.addEventListener("click", () => {
+    closeModal();
+  });
+  // Prevent modal from closing when clicking inside modal
+  const modal = document.getElementById("modal");
+  modal.addEventListener("click", (event) => {
+    event.stopPropagation();
   });
 };
 
