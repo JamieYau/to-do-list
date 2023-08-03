@@ -78,6 +78,7 @@ const addTodoListeners = (project) => {
         selectedTodo.priority = priority;
         renderTodoDetails(selectedTodo);
         renderTodos(project);
+        addTodoListeners(project);
       });
     });
   };
