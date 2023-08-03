@@ -59,28 +59,7 @@ const addTodoListeners = (project) => {
     });
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     renderTodoDetails(selectedTodo);
-    // Edit todo
-    const editBtn = document.getElementById("edit-todo");
-    editBtn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      renderEditTodo(selectedTodo);
-      // Save todo
-      const saveBtn = document.getElementById("save-edit");
-      saveBtn.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const title = document.getElementById("todo-title").value;
-        const description = document.getElementById("todo-description").value;
-        const dueDate = document.getElementById("todo-duedate").value;
-        const priority = document.getElementById("todo-priority").value;
-        selectedTodo.title = title;
-        selectedTodo.description = description;
-        selectedTodo.dueDate = new Date(dueDate);
-        selectedTodo.priority = priority;
-        renderTodoDetails(selectedTodo);
-        renderTodos(project);
-        addTodoListeners(project);
-      });
-    });
+    addTodoDetailsListeners(selectedTodo, project);
   };
 
   const handleCheckboxClick = (event, todoId) => {
@@ -113,6 +92,47 @@ const addTodoListeners = (project) => {
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
     });
+  });
+};
+
+const addTodoDetailsListeners = (selectedTodo, project) => {
+  // Edit todo
+  const editBtn = document.getElementById("edit-todo");
+  editBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    renderEditTodo(selectedTodo);
+    addSaveTodoListener(selectedTodo, project);
+    addCancelEditListener(selectedTodo, project);
+  });
+
+  // Add other event listeners for the todo details here, if needed.
+};
+
+const addSaveTodoListener = (selectedTodo, project) => {
+  const saveBtn = document.getElementById("save-edit");
+  saveBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const title = document.getElementById("todo-title").value;
+    const description = document.getElementById("todo-description").value;
+    const dueDate = document.getElementById("todo-duedate").value;
+    const priority = document.getElementById("todo-priority").value;
+    selectedTodo.title = title;
+    selectedTodo.description = description;
+    selectedTodo.dueDate = new Date(dueDate);
+    selectedTodo.priority = priority;
+    renderTodoDetails(selectedTodo);
+    addTodoDetailsListeners(selectedTodo, project);
+    renderTodos(project);
+    addTodoListeners(project);
+  });
+};
+
+const addCancelEditListener = (selectedTodo, project) => {
+  const cancelBtn = document.getElementById("cancel-edit");
+  cancelBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    renderTodoDetails(selectedTodo);
+    addTodoDetailsListeners(selectedTodo, project);
   });
 };
 
