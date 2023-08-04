@@ -204,7 +204,7 @@ header {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-#modal {
+.modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -218,20 +218,20 @@ header {
   background-color: #ffffff;
 }
 
-#modal > .modal-header {
+.modal > .modal-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-#modal > .modal-header > #close-btn {
+.modal > .modal-header > #close-btn {
   border: none;
   background-color: transparent;
   color: #5b5b5b;
 }
 
-#modal-content {
+.modal-content {
   display: flex;
   flex-direction: column;
 }

@@ -2,7 +2,12 @@ const renderPage = () => {
   const container = document.getElementById("container");
   container.innerHTML = "";
   // Render Modal
-  renderModal();
+  const overlay = document.createElement("div");
+  overlay.id = "overlay";
+  overlay.classList.add("hidden");
+  container.appendChild(overlay);
+  renderModal("todo");
+  renderModal("confirmation");
   // Render the header
   const header = document.createElement("header");
   header.id = "header";
@@ -171,18 +176,19 @@ const renderTodos = (project) => {
 };
 
 // Render Modal
-const renderModal = () => {
-  const overlay = document.createElement("div");
-  overlay.id = "overlay";
-  overlay.classList.add("hidden");
+const renderModal = (type) => {
+  const overlay = document.getElementById("overlay");
   const modal = document.createElement("div");
-  modal.id = "modal";
+  modal.id = `${type}-modal`;
+  modal.classList.add("modal", "hidden");
   const modalHeader = document.createElement("div");
+  modalHeader.id = `${type}-modal-header`;
   modalHeader.classList = "modal-header";
   const modalTitle = document.createElement("h2");
-  modalTitle.id = "modal-title";
+  modalTitle.id = `${type}-modal-title`;
+  modalTitle.classList = "modal-title";
   const closeButton = document.createElement("button");
-  closeButton.id = "close-btn";
+  closeButton.classList = "close-btn";
   const closeBtnIcon = document.createElement("i");
   closeBtnIcon.classList.add("fas", "fa-xmark", "fa-xl");
   closeButton.appendChild(closeBtnIcon);
@@ -190,22 +196,24 @@ const renderModal = () => {
   modalHeader.appendChild(closeButton);
   modal.appendChild(modalHeader);
   const modalContent = document.createElement("div");
-  modalContent.id = "modal-content";
+  modalContent.id = `${type}-modal-content`;
+  modalContent.classList = "modal-content";
   modal.appendChild(modalContent);
 
   overlay.appendChild(modal);
-  container.appendChild(overlay);
 };
 
 // Render the todo descripition and details in a popup
 const renderTodoDetails = (todo) => {
   const overlay = document.getElementById("overlay");
   overlay.classList.remove("hidden");
+  const modal = document.getElementById("todo-modal");
+  modal.classList.remove("hidden");
   // Title
-  const todoTitle = document.getElementById("modal-title");
+  const todoTitle = document.getElementById("todo-modal-title");
   todoTitle.textContent = todo.title;
   // Content
-  const content = document.getElementById("modal-content");
+  const content = document.getElementById("todo-modal-content");
   content.innerHTML = "";
   // Description
   const todoDescription = document.createElement("p");
@@ -259,7 +267,11 @@ const renderTodoDetails = (todo) => {
 const renderEditTodo = (todo) => {
   const overlay = document.getElementById("overlay");
   overlay.classList.remove("hidden");
-  const content = document.getElementById("modal-content");
+  const modal = document.getElementById("todo-modal");
+  modal.classList.remove("hidden");
+  const header = document.getElementById("todo-modal-title");
+  header.textContent = "Edit Todo";
+  const content = document.getElementById("todo-modal-content");
   content.innerHTML = "";
   // Title
   const todoTitle = document.createElement("input");
@@ -294,7 +306,7 @@ const renderEditTodo = (todo) => {
   // Cancel
   const cancelEdit = document.createElement("button");
   cancelEdit.id = "cancel-edit";
-  cancelEdit.classList.add("cancel-edit");
+  cancelEdit.classList.add("cancel-btn");
   cancelEdit.textContent = "Cancel";
   // Save
   const saveEdit = document.createElement("button");
@@ -311,10 +323,51 @@ const renderEditTodo = (todo) => {
   content.appendChild(actionsContainer);
 };
 
+// Render the confirmation modal for Projects and todos
+const renderConfirmationModal = (type, obj) => {
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
+  const modal = document.getElementById("confirmation-modal");
+  modal.classList.remove("hidden");
+  const header = document.getElementById("confirmation-modal-header");
+  header.textContent = `Are you sure you want to delete this ${type}?`;
+  const content = document.getElementById("confirmation-modal-content");
+  content.innerHTML = "";
+  const details = document.createElement("div");
+  details.id = "confirmation-modal-details";
+  if(type === "project") {
+    const projectTitle = document.createElement("p");
+    projectTitle.id = "confirmation-project-title";
+    projectTitle.textContent = obj.title;
+    details.appendChild(projectTitle);
+  } else if (type === "todo") {
+    const todoTitle = document.createElement("p");
+    todoTitle.id = "confirmation-todo-title";
+    todoTitle.textContent = obj.title;
+    details.appendChild(todoTitle);
+  }
+  content.appendChild(details);
+  const actions = document.createElement("div");
+  actions.id = "confirmation-modal-actions";
+  const cancel = document.createElement("button");
+  cancel.id = `cancel-delete`;
+  cancel.classList.add("cancel-btn");
+  cancel.textContent = "Cancel";
+  const confirm = document.createElement("button");
+  confirm.id = `${type}-confirm-delete`;
+  confirm.classList.add("confirm-delete");
+  confirm.textContent = "Confirm";
+  actions.appendChild(cancel);
+  actions.appendChild(confirm);
+  content.appendChild(actions);
+  overlay.appendChild(modal);
+};
+
 export {
   renderPage,
   renderProjects,
   renderTodos,
   renderTodoDetails,
   renderEditTodo,
+  renderConfirmationModal,
 };

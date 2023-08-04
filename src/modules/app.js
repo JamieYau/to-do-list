@@ -6,6 +6,7 @@ import {
   renderTodos,
   renderTodoDetails,
   renderEditTodo,
+  renderConfirmationModal,
 } from "./render.js";
 import { generateProjects, generateTodos } from "./utils.js";
 
@@ -95,6 +96,9 @@ const addTodoListeners = (project) => {
     });
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
+      const selectedTodo = project.todos.find((todo) => todo.id === todoId);
+      renderConfirmationModal("todo", selectedTodo);
+      addCancelDeleteListener();
     });
   });
 };
@@ -140,13 +144,27 @@ const addCancelEditListener = (selectedTodo, project) => {
   });
 };
 
+const addCancelDeleteListener = () => {
+  const cancelBtn = document.getElementById("cancel-delete");
+  cancelBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("confirmation-modal");
+    overlay.classList.add("hidden");
+    modal.classList.add("hidden");
+  });
+};
+
 const addModalListeners = () => {
   const overlay = document.getElementById("overlay");
-  const modal = document.getElementById("modal");
+  const modals = document.querySelectorAll(".modal");
   // Close modal and Remove active class from todo
-  const modalClose = document.getElementById("close-btn");
+  const modalClose = document.querySelector(".close-btn");
   const closeModal = () => {
     overlay.classList.add("hidden");
+    modals.forEach((modal) => {
+      modal.classList.add("hidden");
+    });
     const todos = document.querySelectorAll(".todo-item");
     todos.forEach((todo) => {
       todo.classList.remove("active");
@@ -159,8 +177,10 @@ const addModalListeners = () => {
     closeModal();
   });
   // Prevent modal from closing when clicking inside modal
-  modal.addEventListener("click", (event) => {
-    event.stopPropagation();
+  modals.forEach((modal) => {
+    modal.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
   });
 };
 
