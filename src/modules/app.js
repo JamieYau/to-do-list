@@ -51,6 +51,7 @@ const addSidebarListeners = (projects) => {
   });
 };
 
+// Add event listeners for todo list items
 const addTodoListeners = (project) => {
   const todoListItems = document.querySelectorAll(".todo-item");
 
@@ -99,6 +100,7 @@ const addTodoListeners = (project) => {
       const selectedTodo = project.todos.find((todo) => todo.id === todoId);
       renderConfirmationModal("todo", selectedTodo);
       addCancelDeleteListener();
+      addConfirmDeleteTodoListener(selectedTodo, project);
     });
   });
 };
@@ -119,6 +121,7 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
     event.stopPropagation();
     renderConfirmationModal("todo", selectedTodo);
     addCancelDeleteListener();
+    addConfirmDeleteTodoListener(selectedTodo, project);
   });
 };
 
@@ -154,6 +157,24 @@ const addCancelDeleteListener = () => {
   const cancelBtn = document.getElementById("cancel-delete");
   cancelBtn.addEventListener("click", (event) => {
     event.stopPropagation();
+    const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("confirmation-modal");
+    overlay.classList.add("hidden");
+    modal.classList.add("hidden");
+    const todos = document.querySelectorAll(".todo-item");
+    todos.forEach((todo) => {
+      todo.classList.remove("active");
+    });
+  });
+};
+
+const addConfirmDeleteTodoListener = (selectedTodo, project) => {
+  const confirmBtn = document.getElementById("confirm-delete");
+  confirmBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    project.removeTodo(selectedTodo.id);
+    renderTodos(project);
+    addTodoListeners(project);
     const overlay = document.getElementById("overlay");
     const modal = document.getElementById("confirmation-modal");
     overlay.classList.add("hidden");

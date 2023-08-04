@@ -70,7 +70,7 @@ button {
 }
 
 /* Header */
-header {
+#page-header {
   grid-area: header;
   height: var(--header-height);
   background-color: var(--primary-color);
@@ -119,13 +119,19 @@ header {
   width: 85%;
 }
 
-#project-name {
-  font-size: 2rem;
-  font-weight: bold;
+#content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-#todo-wrapper {
+#project-name {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+#content-wrapper {
   height: calc(100% - 2 * 2rem);
   overflow-y: auto;
 }

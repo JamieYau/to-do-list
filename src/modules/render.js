@@ -10,7 +10,7 @@ const renderPage = () => {
   renderModal("confirmation");
   // Render the header
   const header = document.createElement("header");
-  header.id = "header";
+  header.id = "page-header";
   const headerTitle = document.createElement("h1");
   headerTitle.id = "header-title";
   headerTitle.textContent = "Todo List";
@@ -42,6 +42,25 @@ const renderPage = () => {
   // Render the content
   const content = document.createElement("main");
   content.id = "content";
+  const contentHeader = document.createElement("header");
+  contentHeader.id = "content-header";
+  const contentTitle = document.createElement("h2");
+  contentTitle.id = "project-name";
+  const addTodo = document.createElement("button");
+  addTodo.id = "add-todo";
+  addTodo.classList.add("add-todo");
+  const addTodoIcon = document.createElement("i");
+  addTodoIcon.classList.add("fas", "fa-plus");
+  const addTodoText = document.createElement("span");
+  addTodoText.textContent = " Add Todo";
+  addTodo.appendChild(addTodoIcon);
+  addTodo.appendChild(addTodoText);
+  contentHeader.appendChild(contentTitle);
+  contentHeader.appendChild(addTodo);
+  const contentWrapper = document.createElement("div");
+  contentWrapper.id = "content-wrapper";
+  content.appendChild(contentHeader);
+  content.appendChild(contentWrapper);
   // Render the footer
   const footer = document.createElement("footer");
   const footerText = document.createElement("p");
@@ -97,13 +116,10 @@ const renderProjects = (projects) => {
 
 // Render the todos for a project
 const renderTodos = (project) => {
-  const content = document.getElementById("content");
-  content.innerHTML = "";
-  const projectName = document.createElement("h2");
-  projectName.id = "project-name";
+  const projectName = document.getElementById("project-name");
   projectName.textContent = project.title;
-  const todoWrapper = document.createElement("div");
-  todoWrapper.id = "todo-wrapper";
+  const contentWrapper = document.getElementById("content-wrapper");
+  contentWrapper.innerHTML = "";
 
   const todoList = document.createElement("ul");
   todoList.id = "todo-list";
@@ -170,9 +186,7 @@ const renderTodos = (project) => {
     todoItem.appendChild(actions);
     todoList.appendChild(todoItem);
   });
-  todoWrapper.appendChild(todoList);
-  content.appendChild(projectName);
-  content.appendChild(todoWrapper);
+  contentWrapper.appendChild(todoList);
 };
 
 // Render Modal
@@ -352,11 +366,11 @@ const renderConfirmationModal = (type, obj) => {
   const actions = document.createElement("div");
   actions.id = "confirmation-modal-actions";
   const cancel = document.createElement("button");
-  cancel.id = `cancel-delete`;
+  cancel.id = "cancel-delete";
   cancel.classList.add("cancel-btn");
   cancel.textContent = "Cancel";
   const confirm = document.createElement("button");
-  confirm.id = `${type}-confirm-delete`;
+  confirm.id = "confirm-delete";
   confirm.classList.add("confirm-delete");
   confirm.textContent = "Confirm";
   actions.appendChild(cancel);
