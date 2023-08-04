@@ -3,6 +3,7 @@ import Todo from "./todo.js";
 import {
   renderPage,
   renderProjects,
+  renderAddTodo,
   renderTodos,
   renderTodoDetails,
   renderEditTodo,
@@ -22,6 +23,7 @@ const initApp = () => {
   // Add event listeners
   addSidebarListeners(projects);
   addTodoListeners(projects[0]);
+  addAddTodoListener(projects);
   addModalListeners();
 };
 
@@ -50,6 +52,13 @@ const addSidebarListeners = (projects) => {
     });
   });
 };
+
+const addAddTodoListener = (projects) => {
+  const addTodoBtn = document.getElementById("add-todo");
+  addTodoBtn.addEventListener("click", () => {
+    renderAddTodo(projects);
+  });
+}
 
 // Add event listeners for todo list items
 const addTodoListeners = (project) => {

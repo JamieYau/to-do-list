@@ -114,6 +114,73 @@ const renderProjects = (projects) => {
   projectSection.appendChild(addProject);
 };
 
+const renderAddTodo = (projects) => {
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("hidden");
+  const modal = document.getElementById("todo-modal");
+  modal.classList.remove("hidden");
+  // Title
+  const todoTitle = document.getElementById("todo-modal-title");
+  todoTitle.textContent = "Add Todo";
+  // Content
+  const content = document.getElementById("todo-modal-content");
+  content.innerHTML = "";
+  // Title
+  const todoTitleInput = document.createElement("input");
+  todoTitleInput.id = "todo-title";
+  todoTitleInput.type = "text";
+  todoTitleInput.placeholder = "Title";
+  // Description
+  const todoDescriptionInput = document.createElement("textarea");
+  todoDescriptionInput.id = "todo-description";
+  todoDescriptionInput.placeholder = "Description";
+  // Due date
+  const todoDueDateInput = document.createElement("input");
+  todoDueDateInput.id = "todo-duedate";
+  todoDueDateInput.type = "date";
+  // Project
+  const todoProjectInput = document.createElement("select");
+  todoProjectInput.id = "todo-project";
+  projects.forEach((project) => {
+    const projectOption = document.createElement("option");
+    projectOption.value = project.id;
+    projectOption.textContent = project.title;
+    todoProjectInput.appendChild(projectOption);
+  });
+  // Priority
+  const todoPriorityInput = document.createElement("select");
+  todoPriorityInput.id = "todo-priority";
+  const priorityOptions = ["Low", "Medium", "High"];
+  priorityOptions.forEach((option) => {
+    const priorityOption = document.createElement("option");
+    priorityOption.value = option;
+    priorityOption.textContent = option;
+    todoPriorityInput.appendChild(priorityOption);
+  });
+  // Actions container
+  const actionsContainer = document.createElement("div");
+  actionsContainer.id = "actions-container";
+  // Cancel
+  const cancelEdit = document.createElement("button");
+  cancelEdit.id = "cancel-edit";
+  cancelEdit.classList.add("cancel-btn");
+  cancelEdit.textContent = "Cancel";
+  // Save
+  const saveEdit = document.createElement("button");
+  saveEdit.id = "save-edit";
+  saveEdit.classList.add("save-edit");
+  saveEdit.textContent = "Save";
+  // Append all elements to the container
+  content.appendChild(todoTitleInput);
+  content.appendChild(todoDescriptionInput);
+  content.appendChild(todoDueDateInput);
+  content.appendChild(todoProjectInput);
+  content.appendChild(todoPriorityInput);
+  actionsContainer.appendChild(cancelEdit);
+  actionsContainer.appendChild(saveEdit);
+  content.appendChild(actionsContainer);
+};
+
 // Render the todos for a project
 const renderTodos = (project) => {
   const projectName = document.getElementById("project-name");
@@ -382,6 +449,7 @@ const renderConfirmationModal = (type, obj) => {
 export {
   renderPage,
   renderProjects,
+  renderAddTodo,
   renderTodos,
   renderTodoDetails,
   renderEditTodo,
