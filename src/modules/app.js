@@ -113,7 +113,13 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
     addCancelEditListener(selectedTodo, project);
   });
 
-  // Add other event listeners for the todo details here, if needed.
+  // Delete todo
+  const deleteBtn = document.getElementById("delete-todo");
+  deleteBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    renderConfirmationModal("todo", selectedTodo);
+    addCancelDeleteListener();
+  });
 };
 
 const addSaveTodoListener = (selectedTodo, project) => {
@@ -152,6 +158,10 @@ const addCancelDeleteListener = () => {
     const modal = document.getElementById("confirmation-modal");
     overlay.classList.add("hidden");
     modal.classList.add("hidden");
+    const todos = document.querySelectorAll(".todo-item");
+    todos.forEach((todo) => {
+      todo.classList.remove("active");
+    });
   });
 };
 

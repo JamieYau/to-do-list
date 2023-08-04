@@ -325,6 +325,8 @@ const renderEditTodo = (todo) => {
 
 // Render the confirmation modal for Projects and todos
 const renderConfirmationModal = (type, obj) => {
+  const todoModal = document.getElementById("todo-modal");
+  todoModal.classList.add("hidden");
   const overlay = document.getElementById("overlay");
   overlay.classList.remove("hidden");
   const modal = document.getElementById("confirmation-modal");
@@ -335,7 +337,7 @@ const renderConfirmationModal = (type, obj) => {
   content.innerHTML = "";
   const details = document.createElement("div");
   details.id = "confirmation-modal-details";
-  if(type === "project") {
+  if (type === "project") {
     const projectTitle = document.createElement("p");
     projectTitle.id = "confirmation-project-title";
     projectTitle.textContent = obj.title;
