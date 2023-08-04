@@ -58,6 +58,7 @@ const addAddTodoListener = (projects) => {
   addTodoBtn.addEventListener("click", () => {
     renderAddTodo(projects);
     addCreateTodo(projects);
+    addCancelCreateTodo();
   });
 };
 
@@ -77,6 +78,17 @@ const addCreateTodo = (projects) => {
     selectedProject.addTodo(newTodo);
     renderTodos(selectedProject);
     addTodoListeners(selectedProject);
+    const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("todo-modal");
+    overlay.classList.add("hidden");
+    modal.classList.add("hidden");
+  });
+};
+
+const addCancelCreateTodo = () => {
+  const cancelBtn = document.getElementById("cancel-create");
+  cancelBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
     const overlay = document.getElementById("overlay");
     const modal = document.getElementById("todo-modal");
     overlay.classList.add("hidden");

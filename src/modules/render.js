@@ -162,7 +162,7 @@ const renderAddTodo = (projects) => {
   actionsContainer.id = "actions-container";
   // Cancel
   const cancelEdit = document.createElement("button");
-  cancelEdit.id = "cancel-edit";
+  cancelEdit.id = "cancel-create";
   cancelEdit.classList.add("cancel-btn");
   cancelEdit.textContent = "Cancel";
   // Save
