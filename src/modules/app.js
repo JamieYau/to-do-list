@@ -57,8 +57,32 @@ const addAddTodoListener = (projects) => {
   const addTodoBtn = document.getElementById("add-todo");
   addTodoBtn.addEventListener("click", () => {
     renderAddTodo(projects);
+    addCreateTodo(projects);
   });
-}
+};
+
+const addCreateTodo = (projects) => {
+  const createBtn = document.getElementById("save-create");
+  createBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const title = document.getElementById("todo-title").value;
+    const description = document.getElementById("todo-description").value;
+    const dueDate = document.getElementById("todo-duedate").value;
+    const priority = document.getElementById("todo-priority").value;
+    const projectId = document.getElementById("todo-project").value;
+    const selectedProject = projects.find(
+      (project) => project.id === projectId
+    );
+    const newTodo = new Todo(title, description, new Date(dueDate), priority);
+    selectedProject.addTodo(newTodo);
+    renderTodos(selectedProject);
+    addTodoListeners(selectedProject);
+    const overlay = document.getElementById("overlay");
+    const modal = document.getElementById("todo-modal");
+    overlay.classList.add("hidden");
+    modal.classList.add("hidden");
+  });
+};
 
 // Add event listeners for todo list items
 const addTodoListeners = (project) => {

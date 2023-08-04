@@ -166,10 +166,10 @@ const renderAddTodo = (projects) => {
   cancelEdit.classList.add("cancel-btn");
   cancelEdit.textContent = "Cancel";
   // Save
-  const saveEdit = document.createElement("button");
-  saveEdit.id = "save-edit";
-  saveEdit.classList.add("save-edit");
-  saveEdit.textContent = "Save";
+  const saveCreate = document.createElement("button");
+  saveCreate.id = "save-create";
+  saveCreate.classList.add("save-btn");
+  saveCreate.textContent = "Create";
   // Append all elements to the container
   content.appendChild(todoTitleInput);
   content.appendChild(todoDescriptionInput);
@@ -177,7 +177,7 @@ const renderAddTodo = (projects) => {
   content.appendChild(todoProjectInput);
   content.appendChild(todoPriorityInput);
   actionsContainer.appendChild(cancelEdit);
-  actionsContainer.appendChild(saveEdit);
+  actionsContainer.appendChild(saveCreate);
   content.appendChild(actionsContainer);
 };
 
@@ -392,7 +392,7 @@ const renderEditTodo = (todo) => {
   // Save
   const saveEdit = document.createElement("button");
   saveEdit.id = "save-edit";
-  saveEdit.classList.add("save-edit");
+  saveEdit.classList.add("save-btn");
   saveEdit.textContent = "Save";
   // Append all elements to the container
   content.appendChild(todoTitle);
