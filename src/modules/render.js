@@ -1,6 +1,20 @@
 import Project from "./project";
 import Todo from "./todo";
 
+const showModal = (modalId) => {
+  const overlay = document.getElementById("overlay");
+  const modal = document.getElementById(modalId);
+  overlay.classList.remove("hidden");
+  modal.classList.remove("hidden");
+};
+
+const hideModal = (modalId) => {
+  const overlay = document.getElementById("overlay");
+  const modal = document.getElementById(modalId);
+  overlay.classList.add("hidden");
+  modal.classList.add("hidden");
+};
+
 const renderPage = () => {
   const container = document.getElementById("container");
   container.innerHTML = "";
@@ -117,73 +131,6 @@ const renderProjects = (projects) => {
   projectSection.appendChild(addProject);
 };
 
-const renderAddTodo = (projects) => {
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-  const modal = document.getElementById("todo-modal");
-  modal.classList.remove("hidden");
-  // Title
-  const todoTitle = document.getElementById("todo-modal-title");
-  todoTitle.textContent = "Add Todo";
-  // Content
-  const content = document.getElementById("todo-modal-content");
-  content.innerHTML = "";
-  // Title
-  const todoTitleInput = document.createElement("input");
-  todoTitleInput.id = "todo-title";
-  todoTitleInput.type = "text";
-  todoTitleInput.placeholder = "Title";
-  // Description
-  const todoDescriptionInput = document.createElement("textarea");
-  todoDescriptionInput.id = "todo-description";
-  todoDescriptionInput.placeholder = "Description";
-  // Due date
-  const todoDueDateInput = document.createElement("input");
-  todoDueDateInput.id = "todo-duedate";
-  todoDueDateInput.type = "date";
-  // Project
-  const todoProjectInput = document.createElement("select");
-  todoProjectInput.id = "todo-project";
-  projects.forEach((project) => {
-    const projectOption = document.createElement("option");
-    projectOption.value = project.id;
-    projectOption.textContent = project.title;
-    todoProjectInput.appendChild(projectOption);
-  });
-  // Priority
-  const todoPriorityInput = document.createElement("select");
-  todoPriorityInput.id = "todo-priority";
-  const priorityOptions = ["Low", "Medium", "High"];
-  priorityOptions.forEach((option) => {
-    const priorityOption = document.createElement("option");
-    priorityOption.value = option;
-    priorityOption.textContent = option;
-    todoPriorityInput.appendChild(priorityOption);
-  });
-  // Actions container
-  const actionsContainer = document.createElement("div");
-  actionsContainer.id = "actions-container";
-  // Cancel
-  const cancelEdit = document.createElement("button");
-  cancelEdit.id = "cancel-create";
-  cancelEdit.classList.add("cancel-btn");
-  cancelEdit.textContent = "Cancel";
-  // Save
-  const saveCreate = document.createElement("button");
-  saveCreate.id = "save-create";
-  saveCreate.classList.add("save-btn");
-  saveCreate.textContent = "Create";
-  // Append all elements to the container
-  content.appendChild(todoTitleInput);
-  content.appendChild(todoDescriptionInput);
-  content.appendChild(todoDueDateInput);
-  content.appendChild(todoProjectInput);
-  content.appendChild(todoPriorityInput);
-  actionsContainer.appendChild(cancelEdit);
-  actionsContainer.appendChild(saveCreate);
-  content.appendChild(actionsContainer);
-};
-
 // Render the todos for a project
 const renderTodos = (project) => {
   const projectName = document.getElementById("project-name");
@@ -289,10 +236,7 @@ const renderModal = (type) => {
 
 // Render the todo descripition and details in a popup
 const renderTodoDetails = (todo) => {
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-  const modal = document.getElementById("todo-modal");
-  modal.classList.remove("hidden");
+  showModal("todo-modal");
   // Title
   const todoTitle = document.getElementById("todo-modal-title");
   todoTitle.textContent = todo.title;
@@ -347,12 +291,68 @@ const renderTodoDetails = (todo) => {
   content.appendChild(actionsContainer);
 };
 
+// Render the add todo Modal
+const renderAddTodo = (projects) => {
+  showModal("todo-modal");
+  // Title
+  const todoTitle = document.getElementById("todo-modal-title");
+  todoTitle.textContent = "Add Todo";
+  // Content
+  const content = document.getElementById("todo-modal-content");
+  content.innerHTML = "";
+  // Title
+  const todoTitleInput = document.createElement("input");
+  todoTitleInput.id = "todo-title";
+  todoTitleInput.type = "text";
+  todoTitleInput.placeholder = "Title";
+  content.appendChild(todoTitleInput);
+  // Description
+  const todoDescriptionInput = document.createElement("textarea");
+  todoDescriptionInput.id = "todo-description";
+  todoDescriptionInput.placeholder = "Description";
+  content.appendChild(todoDescriptionInput);
+  // Due date
+  const todoDueDateInput = document.createElement("input");
+  todoDueDateInput.id = "todo-duedate";
+  todoDueDateInput.type = "date";
+  content.appendChild(todoDueDateInput);
+  // Project
+  const todoProjectInput = document.createElement("select");
+  todoProjectInput.id = "todo-project";
+  projects.forEach((project) => {
+    const projectOption = document.createElement("option");
+    projectOption.value = project.id;
+    projectOption.textContent = project.title;
+    todoProjectInput.appendChild(projectOption);
+  });
+  content.appendChild(todoProjectInput);
+  // Priority
+  const todoPriorityInput = document.createElement("select");
+  todoPriorityInput.id = "todo-priority";
+  const priorityOptions = ["Low", "Medium", "High"];
+  priorityOptions.forEach((option) => {
+    const priorityOption = document.createElement("option");
+    priorityOption.value = option;
+    priorityOption.textContent = option;
+    todoPriorityInput.appendChild(priorityOption);
+  });
+  content.appendChild(todoPriorityInput);
+  // Actions container
+  const actionsContainer = document.createElement("div");
+  actionsContainer.id = "actions-container";
+  // Cancel
+  const cancelEdit = createButton("Cancel", "cancel-create", "cancel-btn");
+  actionsContainer.appendChild(cancelEdit);
+  // Save
+  const saveCreate = createButton("Save", "save-create", "save-btn");
+  actionsContainer.appendChild(saveCreate);
+
+  content.appendChild(actionsContainer);
+};
+
 // Render the edit todo form
 const renderEditTodo = (todo) => {
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-  const modal = document.getElementById("todo-modal");
-  modal.classList.remove("hidden");
+  showModal("todo-modal");
   const header = document.getElementById("todo-modal-title");
   header.textContent = "Edit Todo";
   const content = document.getElementById("todo-modal-content");
@@ -409,12 +409,8 @@ const renderEditTodo = (todo) => {
 
 // Render the confirmation modal for Projects and Todos
 const renderConfirmationModal = (obj) => {
-  const todoModal = document.getElementById("todo-modal");
-  todoModal.classList.add("hidden");
-  const overlay = document.getElementById("overlay");
-  overlay.classList.remove("hidden");
-  const modal = document.getElementById("confirmation-modal");
-  modal.classList.remove("hidden");
+  hideModal("todo-modal");
+  showModal("confirmation-modal");
 
   const header = document.getElementById("confirmation-modal-header");
   header.textContent = `Are you sure you want to delete this ${
@@ -450,8 +446,8 @@ const renderConfirmationModal = (obj) => {
 
   const actions = document.createElement("div");
   actions.id = "confirmation-modal-actions";
-  const cancel = createButton("Cancel", "cancel-delete");
-  const confirm = createButton("Confirm", "confirm-delete");
+  const cancel = createButton("Cancel", "cancel-delete", "cancel-btn");
+  const confirm = createButton("Confirm", "confirm-delete", "confirm-btn");
 
   actions.appendChild(cancel);
   actions.appendChild(confirm);
@@ -461,10 +457,10 @@ const renderConfirmationModal = (obj) => {
 };
 
 // Helper function to create a button
-const createButton = (text, className) => {
+const createButton = (text, id, className) => {
   const button = document.createElement("button");
   button.textContent = text;
-  button.id = className;
+  button.id = id;
   button.classList.add(className);
   return button;
 };
