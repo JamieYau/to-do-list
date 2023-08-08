@@ -143,7 +143,7 @@ const addTodoListeners = (project) => {
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
       const selectedTodo = project.todos.find((todo) => todo.id === todoId);
-      renderConfirmationModal("todo", selectedTodo);
+      renderConfirmationModal(selectedTodo);
       addCancelDeleteListener();
       addConfirmDeleteTodoListener(selectedTodo, project);
     });
@@ -164,7 +164,7 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
   const deleteBtn = document.getElementById("delete-todo");
   deleteBtn.addEventListener("click", (event) => {
     event.stopPropagation();
-    renderConfirmationModal("todo", selectedTodo);
+    renderConfirmationModal(selectedTodo);
     addCancelDeleteListener();
     addConfirmDeleteTodoListener(selectedTodo, project);
   });

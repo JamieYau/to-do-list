@@ -1,3 +1,6 @@
+import Project from "./project";
+import Todo from "./todo";
+
 const renderPage = () => {
   const container = document.getElementById("container");
   container.innerHTML = "";
@@ -404,46 +407,66 @@ const renderEditTodo = (todo) => {
   content.appendChild(actionsContainer);
 };
 
-// Render the confirmation modal for Projects and todos
-const renderConfirmationModal = (type, obj) => {
+// Render the confirmation modal for Projects and Todos
+const renderConfirmationModal = (obj) => {
   const todoModal = document.getElementById("todo-modal");
   todoModal.classList.add("hidden");
   const overlay = document.getElementById("overlay");
   overlay.classList.remove("hidden");
   const modal = document.getElementById("confirmation-modal");
   modal.classList.remove("hidden");
+
   const header = document.getElementById("confirmation-modal-header");
-  header.textContent = `Are you sure you want to delete this ${type}?`;
+  header.textContent = `Are you sure you want to delete this ${
+    obj instanceof Project ? "project" : "todo"
+  }?`;
+
   const content = document.getElementById("confirmation-modal-content");
   content.innerHTML = "";
   const details = document.createElement("div");
   details.id = "confirmation-modal-details";
-  if (type === "project") {
+
+  // Render confirmation modal details for a Project
+  const renderConfirmationProjectDetails = (project, detailsContainer) => {
     const projectTitle = document.createElement("p");
     projectTitle.id = "confirmation-project-title";
-    projectTitle.textContent = obj.title;
-    details.appendChild(projectTitle);
-  } else if (type === "todo") {
+    projectTitle.textContent = project.title;
+    detailsContainer.appendChild(projectTitle);
+  };
+
+  // Render confirmation modal details for a Todo
+  const renderConfirmationTodoDetails = (todo, detailsContainer) => {
     const todoTitle = document.createElement("p");
     todoTitle.id = "confirmation-todo-title";
-    todoTitle.textContent = obj.title;
-    details.appendChild(todoTitle);
+    todoTitle.textContent = todo.title;
+    detailsContainer.appendChild(todoTitle);
+  };
+
+  if (obj instanceof Project) {
+    renderConfirmationProjectDetails(obj, details);
+  } else if (obj instanceof Todo) {
+    renderConfirmationTodoDetails(obj, details);
   }
-  content.appendChild(details);
+
   const actions = document.createElement("div");
   actions.id = "confirmation-modal-actions";
-  const cancel = document.createElement("button");
-  cancel.id = "cancel-delete";
-  cancel.classList.add("cancel-btn");
-  cancel.textContent = "Cancel";
-  const confirm = document.createElement("button");
-  confirm.id = "confirm-delete";
-  confirm.classList.add("confirm-delete");
-  confirm.textContent = "Confirm";
+  const cancel = createButton("Cancel", "cancel-delete");
+  const confirm = createButton("Confirm", "confirm-delete");
+
   actions.appendChild(cancel);
   actions.appendChild(confirm);
+  content.appendChild(details);
   content.appendChild(actions);
-  overlay.appendChild(modal);
+  modal.appendChild(content);
+};
+
+// Helper function to create a button
+const createButton = (text, className) => {
+  const button = document.createElement("button");
+  button.textContent = text;
+  button.id = className;
+  button.classList.add(className);
+  return button;
 };
 
 export {

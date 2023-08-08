@@ -91,7 +91,7 @@ button {
   padding: 1.5rem 2rem;
 }
 
-.sidebar-list li {
+.sidebar-list li, #add-project {
   padding: 10px 0;
   text-align: start;
   cursor: pointer;
