@@ -62,7 +62,7 @@ const addSidebarListeners = (projects) => {
   const addCreateProject = (projects) => {
     const form = document.getElementById("add-project-form");
     form.addEventListener("submit", (event) => {
-      event.stopPropagation();
+      event.preventDefault();
       const title = document.getElementById("project-title").value;
       const newProject = new Project(title);
       projects.push(newProject);
@@ -77,7 +77,7 @@ const addSidebarListeners = (projects) => {
   const addCancelCreateProject = () => {
     const cancelBtn = document.getElementById("cancel-create");
     cancelBtn.addEventListener("click", (event) => {
-      event.stopPropagation();
+      event.preventDefault();
       const overlay = document.getElementById("overlay");
       const modal = document.getElementById("project-modal");
       overlay.classList.add("hidden");
@@ -206,7 +206,7 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
 const addSaveTodoListener = (selectedTodo, project) => {
   const form = document.getElementById("edit-todo-form");
   form.addEventListener("submit", (event) => {
-    event.stopPropagation();
+    event.preventDefault();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
