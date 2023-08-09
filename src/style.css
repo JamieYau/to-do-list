@@ -95,6 +95,7 @@ button {
   padding: 10px 0;
   text-align: start;
   cursor: pointer;
+  border:none;
 }
 
 .hover {
@@ -129,6 +130,15 @@ button {
 #project-name {
   font-size: 2rem;
   font-weight: bold;
+}
+
+.add-todo {
+  padding: 0.4rem;
+  border-radius: var(--border-radius);
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  background-color: var(--secondary-color);
+  color: #ffffff;
 }
 
 #content-wrapper {
