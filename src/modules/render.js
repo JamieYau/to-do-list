@@ -325,6 +325,9 @@ const renderAddTodo = (projects) => {
   todoDueDateInput.id = "todo-duedate";
   todoDueDateInput.type = "date";
   todoDueDateInput.required = true;
+  // Set the minimum value to today's date
+  const today = new Date().toISOString().split("T")[0];
+  todoDueDateInput.min = today;
   form.appendChild(todoDueDateInput);
   // Project
   const todoProjectInput = document.createElement("select");
@@ -392,6 +395,9 @@ const renderEditTodo = (todo) => {
   todoDueDate.type = "date";
   todoDueDate.value = todo.formatDateToISO();
   todoDueDate.required = true;
+  // Set the minimum value to today's date
+  const today = new Date().toISOString().split("T")[0];
+  todoDueDate.min = today;
   form.appendChild(todoDueDate);
   // Priority
   const todoPriority = document.createElement("select");
