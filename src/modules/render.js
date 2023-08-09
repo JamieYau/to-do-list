@@ -281,7 +281,8 @@ const renderTodoDetails = (todo) => {
   content.appendChild(tagContainer);
   // Actions container
   const actionsContainer = document.createElement("div");
-  actionsContainer.id = "actions-container";
+  actionsContainer.id = "todo-actions-container";
+  actionsContainer.classList.add("actions-container");
   // Edit todo
   const editBtn = createButton("edit-todo", ["edit-todo"], null, [
     "fas",
@@ -319,7 +320,8 @@ const renderAddProject = () => {
   form.appendChild(projectName);
   // Actions container
   const actionsContainer = document.createElement("div");
-  actionsContainer.id = "actions-container";
+  actionsContainer.id = "todo-actions-container";
+  actionsContainer.classList.add("actions-container");
   // Cancel
   const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelCreate);
@@ -393,7 +395,8 @@ const renderAddTodo = (projects) => {
   form.appendChild(todoPriorityInput);
   // Actions container
   const actionsContainer = document.createElement("div");
-  actionsContainer.id = "actions-container";
+  actionsContainer.id = "todo-actions-container";
+  actionsContainer.classList.add("actions-container");
   // Cancel
   const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelCreate);
@@ -455,7 +458,8 @@ const renderEditTodo = (todo) => {
   form.appendChild(todoPriority);
   // Actions container
   const actionsContainer = document.createElement("div");
-  actionsContainer.id = "actions-container";
+  actionsContainer.id = "todo-actions-container";
+  actionsContainer.classList.add("actions-container");
   // Cancel
   const cancelEdit = createButton("cancel-edit", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelEdit);
@@ -506,7 +510,8 @@ const renderConfirmationModal = (obj) => {
   }
 
   const actions = document.createElement("div");
-  actions.id = "confirmation-modal-actions";
+  actions.id = "confirmation-actions-container";
+  actions.classList.add("actions-container");
   const cancelDelete = createButton("cancel-delete", ["cancel-btn"], "Cancel");
   actions.appendChild(cancelDelete);
   const confirmDelete = createButton(
