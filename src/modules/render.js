@@ -43,6 +43,7 @@ const renderPage = () => {
   overlay.classList.add("hidden");
   container.appendChild(overlay);
   renderModal("todo");
+  renderModal("project");
   renderModal("confirmation");
   // Render the header
   const header = document.createElement("header");
@@ -227,7 +228,7 @@ const renderModal = (type) => {
   modalTitle.id = `${type}-modal-title`;
   modalTitle.classList = "modal-title";
   modalHeader.appendChild(modalTitle);
-  const closeBtn = createButton("close-btn", ["close-btn"], null, [
+  const closeBtn = createButton(`close-${type}-btn`, ["close-btn"], null, [
     "fas",
     "fa-xmark",
     "fa-xl",
@@ -294,6 +295,39 @@ const renderTodoDetails = (todo) => {
   actionsContainer.appendChild(deleteBtn);
 
   content.appendChild(actionsContainer);
+};
+
+// Renders the Add Project Modal
+const renderAddProject = () => {
+  showModal("project-modal");
+  // Title
+  const ModalTitle = getElement("project-modal-title");
+  ModalTitle.textContent = "Add Project";
+  // Content
+  const content = getElement("project-modal-content");
+  content.innerHTML = "";
+  // Form
+  const form = document.createElement("form");
+  form.id = "add-project-form";
+  // Title
+  const projectName = document.createElement("input");
+  projectName.id = "project-title";
+  projectName.type = "text";
+  projectName.placeholder = "Title";
+  projectName.required = true;
+  form.appendChild(projectName);
+  // Actions container
+  const actionsContainer = document.createElement("div");
+  actionsContainer.id = "actions-container";
+  // Cancel
+  const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
+  actionsContainer.appendChild(cancelCreate);
+  // Create
+  const createProject = createButton("create-project", ["create-btn"], "Create");
+  actionsContainer.appendChild(createProject);
+
+  form.appendChild(actionsContainer);
+  content.appendChild(form);
 };
 
 // Render the add todo Modal
@@ -434,8 +468,8 @@ const renderConfirmationModal = (obj) => {
   hideModal("todo-modal");
   showModal("confirmation-modal");
 
-  const header = document.getElementById("confirmation-modal-header");
-  header.textContent = `Are you sure you want to delete this ${
+  const modalTitle = document.getElementById("confirmation-modal-title");
+  modalTitle.textContent = `Are you sure you want to delete this ${
     obj instanceof Project ? "project" : "todo"
   }?`;
 
@@ -485,6 +519,7 @@ const renderConfirmationModal = (obj) => {
 export {
   renderPage,
   renderProjects,
+  renderAddProject,
   renderAddTodo,
   renderTodos,
   renderTodoDetails,

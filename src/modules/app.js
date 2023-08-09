@@ -3,6 +3,7 @@ import Todo from "./todo.js";
 import {
   renderPage,
   renderProjects,
+  renderAddProject,
   renderAddTodo,
   renderTodos,
   renderTodoDetails,
@@ -51,6 +52,38 @@ const addSidebarListeners = (projects) => {
       item.classList.remove("hover");
     });
   });
+  const addProjectBtn = document.getElementById("add-project");
+  addProjectBtn.addEventListener("click", () => {
+    renderAddProject();
+    addCreateProject(projects);
+    addCancelCreateProject();
+  });
+
+  const addCreateProject = (projects) => {
+    const form = document.getElementById("add-project-form");
+    form.addEventListener("submit", (event) => {
+      event.stopPropagation();
+      const title = document.getElementById("project-title").value;
+      const newProject = new Project(title);
+      projects.push(newProject);
+      renderProjects(projects);
+      const overlay = document.getElementById("overlay");
+      const modal = document.getElementById("project-modal");
+      overlay.classList.add("hidden");
+      modal.classList.add("hidden");
+    });
+  };
+
+  const addCancelCreateProject = () => {
+    const cancelBtn = document.getElementById("cancel-create");
+    cancelBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const overlay = document.getElementById("overlay");
+      const modal = document.getElementById("project-modal");
+      overlay.classList.add("hidden");
+      modal.classList.add("hidden");
+    });
+  };
 };
 
 const addAddTodoListener = (projects) => {
@@ -246,9 +279,9 @@ const addModalListeners = () => {
       todo.classList.remove("active");
     });
   };
-  modalClose.addEventListener("click", () => {
-    closeModal();
-  });
+    modalClose.addEventListener("click", () => {
+      closeModal();
+    });
   overlay.addEventListener("click", () => {
     closeModal();
   });
