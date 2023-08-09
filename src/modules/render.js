@@ -146,6 +146,7 @@ const renderProjects = (projects) => {
 const renderTodos = (project) => {
   const projectName = document.getElementById("project-name");
   projectName.textContent = project.title;
+  projectName.dataset.projectId = project.id;
   const contentWrapper = document.getElementById("content-wrapper");
   contentWrapper.innerHTML = "";
 
@@ -368,10 +369,14 @@ const renderAddTodo = (projects) => {
   todoProjectInput.id = "todo-project";
   todoProjectInput.required = true;
   projects.forEach((project) => {
-    const projectOption = document.createElement("option");
-    projectOption.value = project.id;
-    projectOption.textContent = project.title;
-    todoProjectInput.appendChild(projectOption);
+    const option = document.createElement("option");
+    option.value = project.id;
+    option.textContent = project.title;
+    // Set selected attribute if the project.id matches the currentProjectId
+    if (project.id === getElement("project-name").dataset.projectId) {
+      option.selected = true;
+    }
+    todoProjectInput.appendChild(option);
   });
   form.appendChild(todoProjectInput);
   // Priority
