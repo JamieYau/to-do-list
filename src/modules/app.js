@@ -110,6 +110,22 @@ const addCreateTodo = (projects) => {
     );
     const newTodo = new Todo(title, description, new Date(dueDate), priority);
     selectedProject.addTodo(newTodo);
+    // Remove active class from the previous active project
+    const activeProjectItem = document.querySelector(
+      ".project-list-item.active"
+    );
+    if (activeProjectItem) {
+      activeProjectItem.classList.remove("active");
+    }
+
+    // Add active class to the newly selected project
+    const newActiveProjectItem = document.querySelector(
+      `.project-list-item[data-id="${projectId}"]`
+    );
+    if (newActiveProjectItem) {
+      newActiveProjectItem.classList.add("active");
+    }
+
     renderTodos(selectedProject);
     addTodoListeners(selectedProject);
     const overlay = document.getElementById("overlay");
