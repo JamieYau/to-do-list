@@ -67,6 +67,7 @@ const addSidebarListeners = (projects) => {
       const newProject = new Project(title);
       projects.push(newProject);
       renderProjects(projects);
+      addSidebarListeners(projects);
       const overlay = document.getElementById("overlay");
       const modal = document.getElementById("project-modal");
       overlay.classList.add("hidden");
@@ -98,7 +99,7 @@ const addAddTodoListener = (projects) => {
 const addCreateTodo = (projects) => {
   const form = document.getElementById("add-todo-form");
   form.addEventListener("submit", (event) => {
-    event.stopPropagation();
+    event.preventDefault();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
