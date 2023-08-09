@@ -305,35 +305,42 @@ const renderAddTodo = (projects) => {
   // Content
   const content = document.getElementById("todo-modal-content");
   content.innerHTML = "";
+  // Form
+  const form = document.createElement("form");
+  form.id = "add-todo-form";
   // Title
   const todoTitleInput = document.createElement("input");
   todoTitleInput.id = "todo-title";
   todoTitleInput.type = "text";
   todoTitleInput.placeholder = "Title";
-  content.appendChild(todoTitleInput);
+  todoTitleInput.required = true;
+  form.appendChild(todoTitleInput);
   // Description
   const todoDescriptionInput = document.createElement("textarea");
   todoDescriptionInput.id = "todo-description";
   todoDescriptionInput.placeholder = "Description";
-  content.appendChild(todoDescriptionInput);
+  form.appendChild(todoDescriptionInput);
   // Due date
   const todoDueDateInput = document.createElement("input");
   todoDueDateInput.id = "todo-duedate";
   todoDueDateInput.type = "date";
-  content.appendChild(todoDueDateInput);
+  todoDueDateInput.required = true;
+  form.appendChild(todoDueDateInput);
   // Project
   const todoProjectInput = document.createElement("select");
   todoProjectInput.id = "todo-project";
+  todoProjectInput.required = true;
   projects.forEach((project) => {
     const projectOption = document.createElement("option");
     projectOption.value = project.id;
     projectOption.textContent = project.title;
     todoProjectInput.appendChild(projectOption);
   });
-  content.appendChild(todoProjectInput);
+  form.appendChild(todoProjectInput);
   // Priority
   const todoPriorityInput = document.createElement("select");
   todoPriorityInput.id = "todo-priority";
+  todoPriorityInput.required = true;
   const priorityOptions = ["Low", "Medium", "High"];
   priorityOptions.forEach((option) => {
     const priorityOption = document.createElement("option");
@@ -341,7 +348,7 @@ const renderAddTodo = (projects) => {
     priorityOption.textContent = option;
     todoPriorityInput.appendChild(priorityOption);
   });
-  content.appendChild(todoPriorityInput);
+  form.appendChild(todoPriorityInput);
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
@@ -350,10 +357,11 @@ const renderAddTodo = (projects) => {
   actionsContainer.appendChild(cancelCreate);
   // Save
   const saveCreate = createButton("save-create", ["save-btn"], "Save");
-
+  saveCreate.type = "submit";
   actionsContainer.appendChild(saveCreate);
 
-  content.appendChild(actionsContainer);
+  form.appendChild(actionsContainer);
+  content.appendChild(form);
 };
 
 // Render the edit todo form
@@ -363,26 +371,32 @@ const renderEditTodo = (todo) => {
   header.textContent = "Edit Todo";
   const content = document.getElementById("todo-modal-content");
   content.innerHTML = "";
+  // Create the form element
+  const form = document.createElement("form");
+  form.id = "edit-todo-form";
   // Title
   const todoTitle = document.createElement("input");
   todoTitle.id = "todo-title";
   todoTitle.type = "text";
   todoTitle.value = todo.title;
-  content.appendChild(todoTitle);
+  todoTitle.required = true;
+  form.appendChild(todoTitle);
   // Description
   const todoDescription = document.createElement("textarea");
   todoDescription.id = "todo-description";
   todoDescription.textContent = todo.description;
-  content.appendChild(todoDescription);
+  form.appendChild(todoDescription);
   // Due date
   const todoDueDate = document.createElement("input");
   todoDueDate.id = "todo-duedate";
   todoDueDate.type = "date";
   todoDueDate.value = todo.formatDateToISO();
-  content.appendChild(todoDueDate);
+  todoDueDate.required = true;
+  form.appendChild(todoDueDate);
   // Priority
   const todoPriority = document.createElement("select");
   todoPriority.id = "todo-priority";
+  todoPriority.required = true;
   const priorityOptions = ["Low", "Medium", "High"];
   priorityOptions.forEach((option) => {
     const priorityOption = document.createElement("option");
@@ -393,7 +407,7 @@ const renderEditTodo = (todo) => {
     }
     todoPriority.appendChild(priorityOption);
   });
-  content.appendChild(todoPriority);
+  form.appendChild(todoPriority);
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
@@ -402,8 +416,11 @@ const renderEditTodo = (todo) => {
   actionsContainer.appendChild(cancelEdit);
   // Save
   const saveEdit = createButton("save-edit", ["save-btn"], "Save");
+  saveEdit.type = "submit";
   actionsContainer.appendChild(saveEdit);
-  content.appendChild(actionsContainer);
+
+  form.appendChild(actionsContainer);
+  content.appendChild(form);
 };
 
 // Render the confirmation modal for Projects and Todos
@@ -446,14 +463,14 @@ const renderConfirmationModal = (obj) => {
   const actions = document.createElement("div");
   actions.id = "confirmation-modal-actions";
   const cancelDelete = createButton("cancel-delete", ["cancel-btn"], "Cancel");
-    actions.appendChild(cancelDelete);
+  actions.appendChild(cancelDelete);
   const confirmDelete = createButton(
     "confirm-delete",
     ["confirm-btn"],
     "Confirm"
   );
   actions.appendChild(confirmDelete);
-  
+
   content.appendChild(details);
   content.appendChild(actions);
   getElement("confirmation-modal").appendChild(content);

@@ -242,6 +242,12 @@ button {
   flex-direction: column;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 #todo-description {
   margin-bottom: 10px;
 }

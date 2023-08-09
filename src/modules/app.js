@@ -63,8 +63,8 @@ const addAddTodoListener = (projects) => {
 };
 
 const addCreateTodo = (projects) => {
-  const createBtn = document.getElementById("save-create");
-  createBtn.addEventListener("click", (event) => {
+  const form = document.getElementById("add-todo-form");
+  form.addEventListener("submit", (event) => {
     event.stopPropagation();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
@@ -171,8 +171,8 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
 };
 
 const addSaveTodoListener = (selectedTodo, project) => {
-  const saveBtn = document.getElementById("save-edit");
-  saveBtn.addEventListener("click", (event) => {
+  const form = document.getElementById("edit-todo-form");
+  form.addEventListener("submit", (event) => {
     event.stopPropagation();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
