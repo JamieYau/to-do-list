@@ -1,18 +1,37 @@
 import Project from "./project";
 import Todo from "./todo";
 
+const getElement = (id) => document.getElementById(id);
+
 const showModal = (modalId) => {
-  const overlay = document.getElementById("overlay");
-  const modal = document.getElementById(modalId);
-  overlay.classList.remove("hidden");
-  modal.classList.remove("hidden");
+  getElement("overlay").classList.remove("hidden");
+  getElement(modalId).classList.remove("hidden");
 };
 
 const hideModal = (modalId) => {
-  const overlay = document.getElementById("overlay");
-  const modal = document.getElementById(modalId);
-  overlay.classList.add("hidden");
-  modal.classList.add("hidden");
+  getElement("overlay").classList.add("hidden");
+  getElement(modalId).classList.add("hidden");
+};
+
+// Helper function to create a button
+const createButton = (id, classes, text, iconClasses) => {
+  const button = document.createElement("button");
+  button.id = id;
+  button.classList.add(...classes);
+
+  if (iconClasses) {
+    const icon = document.createElement("i");
+    icon.classList.add(...iconClasses);
+    button.appendChild(icon);
+  }
+
+  if (text) {
+    const textElement = document.createElement("span");
+    textElement.textContent = text;
+    button.appendChild(textElement);
+  }
+
+  return button;
 };
 
 const renderPage = () => {
@@ -42,14 +61,14 @@ const renderPage = () => {
   const defaultInbox = document.createElement("li");
   defaultInbox.id = "default-inbox";
   defaultInbox.textContent = "Inbox";
+  defaultList.appendChild(defaultInbox);
   const defaultToday = document.createElement("li");
   defaultToday.id = "default-today";
   defaultToday.textContent = "Today";
+  defaultList.appendChild(defaultToday);
   const defaultUpcoming = document.createElement("li");
   defaultUpcoming.id = "default-upcoming";
   defaultUpcoming.textContent = "Upcoming";
-  defaultList.appendChild(defaultInbox);
-  defaultList.appendChild(defaultToday);
   defaultList.appendChild(defaultUpcoming);
   defaultSection.appendChild(defaultList);
   sidebar.appendChild(defaultSection);
@@ -63,17 +82,12 @@ const renderPage = () => {
   contentHeader.id = "content-header";
   const contentTitle = document.createElement("h2");
   contentTitle.id = "project-name";
-  const addTodo = document.createElement("button");
-  addTodo.id = "add-todo";
-  addTodo.classList.add("add-todo");
-  const addTodoIcon = document.createElement("i");
-  addTodoIcon.classList.add("fas", "fa-plus");
-  const addTodoText = document.createElement("span");
-  addTodoText.textContent = " Add Todo";
-  addTodo.appendChild(addTodoIcon);
-  addTodo.appendChild(addTodoText);
   contentHeader.appendChild(contentTitle);
-  contentHeader.appendChild(addTodo);
+  const addTodoBtn = createButton("add-todo", ["add-todo"], "Add Todo", [
+    "fas",
+    "fa-plus",
+  ]);
+  contentHeader.appendChild(addTodoBtn);
   const contentWrapper = document.createElement("div");
   contentWrapper.id = "content-wrapper";
   content.appendChild(contentHeader);
@@ -118,17 +132,13 @@ const renderProjects = (projects) => {
     projectList.appendChild(projectItem);
   });
   // Add the add project button
-  const addProject = document.createElement("div");
-  addProject.id = "add-project";
-  addProject.classList.add("add-project");
-  const addProjectIcon = document.createElement("i");
-  addProjectIcon.classList.add("fas", "fa-plus");
-  const addProjectText = document.createElement("span");
-  addProjectText.textContent = " Add Project";
-  // Append all elements to the container
-  addProject.appendChild(addProjectIcon);
-  addProject.appendChild(addProjectText);
-  projectSection.appendChild(addProject);
+  const addProjectBtn = createButton(
+    "add-project",
+    ["add-project"],
+    "Add Project",
+    ["fas", "fa-plus"]
+  );
+  projectSection.appendChild(addProjectBtn);
 };
 
 // Render the todos for a project
@@ -152,55 +162,53 @@ const renderTodos = (project) => {
     isComplete.type = "checkbox";
     isComplete.classList.add("is-complete");
     isComplete.checked = todo.isComplete;
+    todoItem.appendChild(isComplete);
     // Title
     const title = document.createElement("div");
     title.classList.add("title");
     title.textContent = todo.title;
     const todoDetails = document.createElement("div");
     todoDetails.classList.add("todo-details");
+    todoItem.appendChild(title);
     // Priority
     const priority = document.createElement("div");
     priority.classList.add("priority");
     priority.textContent = todo.priority;
     priority.classList = todo.priority.toLowerCase();
+    todoDetails.appendChild(priority);
     // Days till due
     const daysTillDue = document.createElement("div");
     daysTillDue.classList.add("days-till-due");
     daysTillDue.textContent = todo.getDaysTillDueLabel();
+    todoDetails.appendChild(daysTillDue);
+
+    todoItem.appendChild(todoDetails);
     // Actions
     const actions = document.createElement("div");
     actions.classList.add("actions");
     // Due Date
-    const dueDate = document.createElement("button");
-    dueDate.classList.add("duedate");
-    const dueDateIcon = document.createElement("i");
-    dueDateIcon.classList.add("fas", "fa-calendar-days");
-    const dueDateText = document.createElement("span");
-    dueDateText.textContent = todo.dueDate.toLocaleDateString();
+    const dueDateBtn = createButton(
+      "edit-duedate",
+      ["edit-duedate"],
+      todo.dueDate.toLocaleDateString(),
+      ["fas", "fa-calendar-days"]
+    );
+    actions.appendChild(dueDateBtn);
     // Edit todo
-    const editTodo = document.createElement("button");
-    editTodo.classList.add("edit-todo");
-    const editTodoIcon = document.createElement("i");
-    editTodoIcon.classList.add("fas", "fa-edit");
+    const editBtn = createButton("edit-todo", ["edit-todo"], null, [
+      "fas",
+      "fa-edit",
+    ]);
+    actions.appendChild(editBtn);
     // Delete todo
-    const deleteTodo = document.createElement("button");
-    deleteTodo.classList.add("delete-todo");
-    const deleteTodoIcon = document.createElement("i");
-    deleteTodoIcon.classList.add("fas", "fa-trash-can");
+    const deleteBtn = createButton("delete-todo", ["delete-todo"], null, [
+      "fas",
+      "fa-trash-can",
+    ]);
+    actions.appendChild(deleteBtn);
 
-    todoItem.appendChild(isComplete);
-    todoItem.appendChild(title);
-    todoDetails.appendChild(priority);
-    todoDetails.appendChild(daysTillDue);
-    todoItem.appendChild(todoDetails);
-    dueDate.appendChild(dueDateIcon);
-    dueDate.appendChild(dueDateText);
-    actions.appendChild(dueDate);
-    editTodo.appendChild(editTodoIcon);
-    actions.appendChild(editTodo);
-    deleteTodo.appendChild(deleteTodoIcon);
-    actions.appendChild(deleteTodo);
     todoItem.appendChild(actions);
+
     todoList.appendChild(todoItem);
   });
   contentWrapper.appendChild(todoList);
@@ -218,13 +226,13 @@ const renderModal = (type) => {
   const modalTitle = document.createElement("h2");
   modalTitle.id = `${type}-modal-title`;
   modalTitle.classList = "modal-title";
-  const closeButton = document.createElement("button");
-  closeButton.classList = "close-btn";
-  const closeBtnIcon = document.createElement("i");
-  closeBtnIcon.classList.add("fas", "fa-xmark", "fa-xl");
-  closeButton.appendChild(closeBtnIcon);
   modalHeader.appendChild(modalTitle);
-  modalHeader.appendChild(closeButton);
+  const closeBtn = createButton("close-btn", ["close-btn"], null, [
+    "fas",
+    "fa-xmark",
+    "fa-xl",
+  ]);
+  modalHeader.appendChild(closeBtn);
   modal.appendChild(modalHeader);
   const modalContent = document.createElement("div");
   modalContent.id = `${type}-modal-content`;
@@ -247,10 +255,12 @@ const renderTodoDetails = (todo) => {
   const todoDescription = document.createElement("p");
   todoDescription.id = "todo-description";
   todoDescription.textContent = todo.description;
+  content.appendChild(todoDescription);
   // Due date
   const todoDueDate = document.createElement("p");
   todoDueDate.id = "todo-duedate";
   todoDueDate.textContent = todo.dueDate.toLocaleDateString();
+  content.appendChild(todoDueDate);
   // Tag container
   const tagContainer = document.createElement("div");
   tagContainer.id = "tag-container";
@@ -259,35 +269,30 @@ const renderTodoDetails = (todo) => {
   todoPriority.id = "todo-priority";
   todoPriority.textContent = todo.priority;
   todoPriority.classList = todo.priority.toLowerCase();
+  tagContainer.appendChild(todoPriority);
   // Days till due
   const todoDaysTillDue = document.createElement("p");
   todoDaysTillDue.id = "todo-days-till-due";
   todoDaysTillDue.textContent = todo.getDaysTillDueLabel();
+  tagContainer.appendChild(todoDaysTillDue);
+
+  content.appendChild(tagContainer);
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
   // Edit todo
-  const editTodo = document.createElement("button");
-  editTodo.id = "edit-todo";
-  editTodo.classList.add("edit-todo");
-  const editTodoIcon = document.createElement("i");
-  editTodoIcon.classList.add("fas", "fa-edit");
-  editTodo.appendChild(editTodoIcon);
+  const editBtn = createButton("edit-todo", ["edit-todo"], null, [
+    "fas",
+    "fa-edit",
+  ]);
+  actionsContainer.appendChild(editBtn);
   // Delete todo
-  const deleteTodo = document.createElement("button");
-  deleteTodo.id = "delete-todo";
-  deleteTodo.classList.add("delete-todo");
-  const deleteTodoIcon = document.createElement("i");
-  deleteTodoIcon.classList.add("fas", "fa-trash-can");
-  deleteTodo.appendChild(deleteTodoIcon);
-  // Append all elements to the container
-  content.appendChild(todoDescription);
-  content.appendChild(todoDueDate);
-  tagContainer.appendChild(todoPriority);
-  tagContainer.appendChild(todoDaysTillDue);
-  content.appendChild(tagContainer);
-  actionsContainer.appendChild(editTodo);
-  actionsContainer.appendChild(deleteTodo);
+  const deleteBtn = createButton("delete-todo", ["delete-todo"], null, [
+    "fas",
+    "fa-trash-can",
+  ]);
+  actionsContainer.appendChild(deleteBtn);
+
   content.appendChild(actionsContainer);
 };
 
@@ -341,10 +346,11 @@ const renderAddTodo = (projects) => {
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
   // Cancel
-  const cancelEdit = createButton("Cancel", "cancel-create", "cancel-btn");
-  actionsContainer.appendChild(cancelEdit);
+  const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
+  actionsContainer.appendChild(cancelCreate);
   // Save
-  const saveCreate = createButton("Save", "save-create", "save-btn");
+  const saveCreate = createButton("save-create", ["save-btn"], "Save");
+
   actionsContainer.appendChild(saveCreate);
 
   content.appendChild(actionsContainer);
@@ -362,15 +368,18 @@ const renderEditTodo = (todo) => {
   todoTitle.id = "todo-title";
   todoTitle.type = "text";
   todoTitle.value = todo.title;
+  content.appendChild(todoTitle);
   // Description
   const todoDescription = document.createElement("textarea");
   todoDescription.id = "todo-description";
   todoDescription.textContent = todo.description;
+  content.appendChild(todoDescription);
   // Due date
   const todoDueDate = document.createElement("input");
   todoDueDate.id = "todo-duedate";
   todoDueDate.type = "date";
   todoDueDate.value = todo.formatDateToISO();
+  content.appendChild(todoDueDate);
   // Priority
   const todoPriority = document.createElement("select");
   todoPriority.id = "todo-priority";
@@ -384,25 +393,15 @@ const renderEditTodo = (todo) => {
     }
     todoPriority.appendChild(priorityOption);
   });
+  content.appendChild(todoPriority);
   // Actions container
   const actionsContainer = document.createElement("div");
   actionsContainer.id = "actions-container";
   // Cancel
-  const cancelEdit = document.createElement("button");
-  cancelEdit.id = "cancel-edit";
-  cancelEdit.classList.add("cancel-btn");
-  cancelEdit.textContent = "Cancel";
-  // Save
-  const saveEdit = document.createElement("button");
-  saveEdit.id = "save-edit";
-  saveEdit.classList.add("save-btn");
-  saveEdit.textContent = "Save";
-  // Append all elements to the container
-  content.appendChild(todoTitle);
-  content.appendChild(todoDescription);
-  content.appendChild(todoDueDate);
-  content.appendChild(todoPriority);
+  const cancelEdit = createButton("cancel-edit", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelEdit);
+  // Save
+  const saveEdit = createButton("save-edit", ["save-btn"], "Save");
   actionsContainer.appendChild(saveEdit);
   content.appendChild(actionsContainer);
 };
@@ -446,23 +445,18 @@ const renderConfirmationModal = (obj) => {
 
   const actions = document.createElement("div");
   actions.id = "confirmation-modal-actions";
-  const cancel = createButton("Cancel", "cancel-delete", "cancel-btn");
-  const confirm = createButton("Confirm", "confirm-delete", "confirm-btn");
-
-  actions.appendChild(cancel);
-  actions.appendChild(confirm);
+  const cancelDelete = createButton("cancel-delete", ["cancel-btn"], "Cancel");
+    actions.appendChild(cancelDelete);
+  const confirmDelete = createButton(
+    "confirm-delete",
+    ["confirm-btn"],
+    "Confirm"
+  );
+  actions.appendChild(confirmDelete);
+  
   content.appendChild(details);
   content.appendChild(actions);
-  modal.appendChild(content);
-};
-
-// Helper function to create a button
-const createButton = (text, id, className) => {
-  const button = document.createElement("button");
-  button.textContent = text;
-  button.id = id;
-  button.classList.add(className);
-  return button;
+  getElement("confirmation-modal").appendChild(content);
 };
 
 export {
