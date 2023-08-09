@@ -268,7 +268,7 @@ const addModalListeners = () => {
   const overlay = document.getElementById("overlay");
   const modals = document.querySelectorAll(".modal");
   // Close modal and Remove active class from todo
-  const modalClose = document.querySelector(".close-btn");
+  const modalCloseBtns = document.querySelectorAll(".close-btn");
   const closeModal = () => {
     overlay.classList.add("hidden");
     modals.forEach((modal) => {
@@ -279,9 +279,11 @@ const addModalListeners = () => {
       todo.classList.remove("active");
     });
   };
-    modalClose.addEventListener("click", () => {
+  modalCloseBtns.forEach((closeBtn) => {
+    closeBtn.addEventListener("click", () => {
       closeModal();
     });
+  });
   overlay.addEventListener("click", () => {
     closeModal();
   });
