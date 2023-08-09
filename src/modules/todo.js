@@ -5,6 +5,7 @@ class Todo {
   #title;
   #description;
   #dueDate;
+  #daysTillDue;
   #priority;
   #isComplete;
 
@@ -17,6 +18,9 @@ class Todo {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate instanceof Date ? dueDate : new Date(dueDate);
+    this.#daysTillDue = Math.ceil(
+      (this.#dueDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
     this.#priority = priority;
     this.#isComplete = false;
   }
@@ -59,6 +63,32 @@ class Todo {
     }
 
     this.#dueDate = dueDate;
+  }
+
+  // Format the date to ISO format (yyyy-mm-dd)
+  formatDateToISO() {
+    const year = this.dueDate.getFullYear();
+    const month = String(this.dueDate.getMonth() + 1).padStart(2, "0");
+    const day = String(this.dueDate.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  get daysTillDue() {
+    return this.#daysTillDue;
+  }
+
+  // Get the label for days till due
+  getDaysTillDueLabel() {
+    const daysTillDue = this.daysTillDue;
+    if (daysTillDue === 1) {
+      return "1 day left";
+    } else if (daysTillDue === 0) {
+      return "Due today";
+    } else if (daysTillDue < 0) {
+      return "Overdue";
+    } else {
+      return `${daysTillDue} days left`;
+    }
   }
 
   get priority() {
