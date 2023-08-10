@@ -1,6 +1,10 @@
 import Project from "./project.js";
 import Todo from "./todo.js";
 import {
+  showModal,
+  hideModal,
+  setActiveProject,
+  removeActiveTodo,
   renderPage,
   renderProjects,
   renderAddProject,
@@ -10,30 +14,29 @@ import {
   renderEditTodo,
   renderConfirmationModal,
 } from "./render.js";
-import db, { insertTestData, convertProjectsDataToModels } from "./db.js";
+import db, { insertTestData } from "./db.js";
+import dataService from "./dataService.js";
 
 const initApp = async () => {
   renderPage();
 
   // Insert test data into the database
   await insertTestData();
-  // Call the testing function
   const projectsData = await db.projects.toArray();
-  console.log(projectsData);
-  const projects = await convertProjectsDataToModels(projectsData);
-  console.log(projects);
+  const projects = await dataService.convertProjectsDataToModels(projectsData);
 
   renderProjects(projects);
   renderTodos(projects[0]);
 
   // Add event listeners
-  addSidebarListeners(projects);
-  addTodoListeners(projects[0]);
-  addAddTodoListener(projects);
-  addModalListeners();
+  sidebarListeners(projects);
+  addTodoListener(projects);
+  todoListeners(projects[0]);
+  modalListeners();
 };
 
-const addSidebarListeners = (projects) => {
+// Sidebar Event Listeners
+const sidebarListeners = (projects) => {
   const projectListItems = document.querySelectorAll(".project-list-item");
   const handleProjectItemClick = (projectId) => {
     projectListItems.forEach((item) => {
@@ -43,7 +46,7 @@ const addSidebarListeners = (projects) => {
       (project) => project.id === projectId
     );
     renderTodos(selectedProject);
-    addTodoListeners(selectedProject);
+    todoListeners(selectedProject);
   };
   projectListItems.forEach((item) => {
     const projectId = item.dataset.id;
@@ -57,102 +60,82 @@ const addSidebarListeners = (projects) => {
       item.classList.remove("hover");
     });
   });
+  // Add Project Btn
   const addProjectBtn = document.getElementById("add-project");
   addProjectBtn.addEventListener("click", () => {
     renderAddProject();
-    addCreateProject(projects);
-    addCancelCreateProject();
-  });
-
-  const addCreateProject = (projects) => {
+    // Submit Add Project
     const form = document.getElementById("add-project-form");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const title = document.getElementById("project-title").value;
-      const newProject = new Project(title);
-      projects.push(newProject);
-      renderProjects(projects);
-      addSidebarListeners(projects);
-      const overlay = document.getElementById("overlay");
-      const modal = document.getElementById("project-modal");
-      overlay.classList.add("hidden");
-      modal.classList.add("hidden");
+      handleCreateProject(projects);
     });
-  };
-
-  const addCancelCreateProject = () => {
+    // Cancel Add Project
     const cancelBtn = document.getElementById("cancel-create");
     cancelBtn.addEventListener("click", (event) => {
       event.preventDefault();
-      const overlay = document.getElementById("overlay");
-      const modal = document.getElementById("project-modal");
-      overlay.classList.add("hidden");
-      modal.classList.add("hidden");
+      hideModal("project-modal");
     });
+  });
+
+  const handleCreateProject = (projects) => {
+    const title = document.getElementById("project-title").value;
+    const newProject = new Project(title);
+    projects.push(newProject);
+    hideModal("project-modal");
+    renderProjects(projects);
+    sidebarListeners(projects);
+    renderTodos(newProject);
+    todoListeners(newProject);
+    setActiveProject(newProject);
   };
 };
 
-const addAddTodoListener = (projects) => {
+// Add Todo Btn Listener
+const addTodoListener = (projects) => {
   const addTodoBtn = document.getElementById("add-todo");
-  addTodoBtn.addEventListener("click", () => {
-    renderAddTodo(projects);
-    addCreateTodo(projects);
-    addCancelCreateTodo();
-  });
-};
 
-const addCreateTodo = (projects) => {
-  const form = document.getElementById("add-todo-form");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+  const handleCreateTodo = () => {
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
     const priority = document.getElementById("todo-priority").value;
     const projectId = document.getElementById("todo-project").value;
-    const selectedProject = projects.find(
-      (project) => project.id === projectId
+    const project = projects.find((project) => project.id === projectId);
+    const newTodo = new Todo(
+      title,
+      description,
+      new Date(dueDate),
+      priority,
+      projectId
     );
-    const newTodo = new Todo(title, description, new Date(dueDate), priority, selectedProject.id);
-    selectedProject.addTodo(newTodo);
-    // Remove active class from the previous active project
-    const activeProjectItem = document.querySelector(
-      ".project-list-item.active"
-    );
-    if (activeProjectItem) {
-      activeProjectItem.classList.remove("active");
-    }
+    project.addTodo(newTodo);
 
-    // Add active class to the newly selected project
-    const newActiveProjectItem = document.querySelector(
-      `.project-list-item[data-id="${projectId}"]`
-    );
-    if (newActiveProjectItem) {
-      newActiveProjectItem.classList.add("active");
-    }
+    renderTodos(project);
+    todoListeners(project);
+    hideModal("todo-modal");
+    setActiveProject(project);
+  };
 
-    renderTodos(selectedProject);
-    addTodoListeners(selectedProject);
-    const overlay = document.getElementById("overlay");
-    const modal = document.getElementById("todo-modal");
-    overlay.classList.add("hidden");
-    modal.classList.add("hidden");
+  addTodoBtn.addEventListener("click", () => {
+    renderAddTodo(projects);
+    // Add Todo Form
+    const form = document.getElementById("add-todo-form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      handleCreateTodo();
+    });
+    // Cancel Add Todo
+    const cancelBtn = document.getElementById("cancel-create");
+    cancelBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      hideModal("todo-modal");
+    });
   });
 };
 
-const addCancelCreateTodo = () => {
-  const cancelBtn = document.getElementById("cancel-create");
-  cancelBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const overlay = document.getElementById("overlay");
-    const modal = document.getElementById("todo-modal");
-    overlay.classList.add("hidden");
-    modal.classList.add("hidden");
-  });
-};
-
-// Add event listeners for todo list items
-const addTodoListeners = (project) => {
+// Todo List items listeners
+const todoListeners = (project) => {
   const todoListItems = document.querySelectorAll(".todo-item");
 
   const handleTodoItemClick = (todoId) => {
@@ -161,7 +144,7 @@ const addTodoListeners = (project) => {
     });
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     renderTodoDetails(selectedTodo);
-    addTodoDetailsListeners(selectedTodo, project);
+    todoDetailsListener(selectedTodo, project);
   };
 
   const handleCheckboxClick = (event, todoId) => {
@@ -182,37 +165,41 @@ const addTodoListeners = (project) => {
     item.addEventListener("mouseleave", () => {
       item.classList.remove("hover");
     });
+    // Checkbox
     const checkbox = item.querySelector(".is-complete");
-    const editButton = item.querySelector(".edit-todo");
-    const deleteButton = item.querySelector(".delete-todo");
     checkbox.addEventListener("click", (event) => {
       handleCheckboxClick(event, todoId);
     });
+    // Edit Button
+    const editButton = item.querySelector(".edit-todo");
     editButton.addEventListener("click", (event) => {
       event.stopPropagation();
       const selectedTodo = project.todos.find((todo) => todo.id === todoId);
       renderEditTodo(selectedTodo);
-      addSaveTodoListener(selectedTodo, project);
-      addCancelEditListener(selectedTodo, project);
+      saveTodoListener(selectedTodo, project);
+      cancelEditListener(selectedTodo, project);
     });
+    // Delete Button
+    const deleteButton = item.querySelector(".delete-todo");
     deleteButton.addEventListener("click", (event) => {
       event.stopPropagation();
       const selectedTodo = project.todos.find((todo) => todo.id === todoId);
       renderConfirmationModal(selectedTodo);
-      addCancelDeleteListener();
-      addConfirmDeleteTodoListener(selectedTodo, project);
+      cancelDeleteListener();
+      confirmDeleteTodoListener(selectedTodo, project);
     });
   });
 };
 
-const addTodoDetailsListeners = (selectedTodo, project) => {
+// Todo Details Modal Listeners
+const todoDetailsListener = (selectedTodo, project) => {
   // Edit todo
   const editBtn = document.getElementById("edit-todo");
   editBtn.addEventListener("click", (event) => {
     event.stopPropagation();
     renderEditTodo(selectedTodo);
-    addSaveTodoListener(selectedTodo, project);
-    addCancelEditListener(selectedTodo, project);
+    saveTodoListener(selectedTodo, project);
+    cancelEditListener(selectedTodo, project);
   });
 
   // Delete todo
@@ -220,12 +207,12 @@ const addTodoDetailsListeners = (selectedTodo, project) => {
   deleteBtn.addEventListener("click", (event) => {
     event.stopPropagation();
     renderConfirmationModal(selectedTodo);
-    addCancelDeleteListener();
-    addConfirmDeleteTodoListener(selectedTodo, project);
+    cancelDeleteListener();
+    confirmDeleteTodoListener(selectedTodo, project);
   });
 };
 
-const addSaveTodoListener = (selectedTodo, project) => {
+const saveTodoListener = (selectedTodo, project) => {
   const form = document.getElementById("edit-todo-form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -238,78 +225,61 @@ const addSaveTodoListener = (selectedTodo, project) => {
     selectedTodo.dueDate = new Date(dueDate);
     selectedTodo.priority = priority;
     renderTodoDetails(selectedTodo);
-    addTodoDetailsListeners(selectedTodo, project);
+    todoDetailsListener(selectedTodo, project);
     renderTodos(project);
-    addTodoListeners(project);
+    todoListeners(project);
   });
 };
 
-const addCancelEditListener = (selectedTodo, project) => {
+const cancelEditListener = (selectedTodo, project) => {
   const cancelBtn = document.getElementById("cancel-edit");
   cancelBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
+    event.preventDefault();
     renderTodoDetails(selectedTodo);
-    addTodoDetailsListeners(selectedTodo, project);
+    todoDetailsListener(selectedTodo, project);
   });
 };
 
-const addCancelDeleteListener = () => {
+const cancelDeleteListener = () => {
   const cancelBtn = document.getElementById("cancel-delete");
   cancelBtn.addEventListener("click", (event) => {
     event.stopPropagation();
-    const overlay = document.getElementById("overlay");
-    const modal = document.getElementById("confirmation-modal");
-    overlay.classList.add("hidden");
-    modal.classList.add("hidden");
-    const todos = document.querySelectorAll(".todo-item");
-    todos.forEach((todo) => {
-      todo.classList.remove("active");
-    });
+    hideModal("confirmation-modal");
+    removeActiveTodo();
   });
 };
 
-const addConfirmDeleteTodoListener = (selectedTodo, project) => {
+const confirmDeleteTodoListener = (selectedTodo, project) => {
   const confirmBtn = document.getElementById("confirm-delete");
   confirmBtn.addEventListener("click", (event) => {
     event.stopPropagation();
     project.removeTodo(selectedTodo.id);
     renderTodos(project);
-    addTodoListeners(project);
-    const overlay = document.getElementById("overlay");
-    const modal = document.getElementById("confirmation-modal");
-    overlay.classList.add("hidden");
-    modal.classList.add("hidden");
-    const todos = document.querySelectorAll(".todo-item");
-    todos.forEach((todo) => {
-      todo.classList.remove("active");
-    });
+    todoListeners(project);
+    hideModal("confirmation-modal");
+    removeActiveTodo();
   });
 };
 
-const addModalListeners = () => {
-  const overlay = document.getElementById("overlay");
-  const modals = document.querySelectorAll(".modal");
-  // Close modal and Remove active class from todo
-  const modalCloseBtns = document.querySelectorAll(".close-btn");
+const modalListeners = () => {
   const closeModal = () => {
-    overlay.classList.add("hidden");
-    modals.forEach((modal) => {
-      modal.classList.add("hidden");
-    });
-    const todos = document.querySelectorAll(".todo-item");
-    todos.forEach((todo) => {
-      todo.classList.remove("active");
-    });
+    hideModal("project-modal");
+    hideModal("todo-modal");
+    hideModal("confirmation-modal");
+    removeActiveTodo();
   };
+  const modalCloseBtns = document.querySelectorAll(".close-btn");
   modalCloseBtns.forEach((closeBtn) => {
     closeBtn.addEventListener("click", () => {
       closeModal();
     });
   });
+  const overlay = document.getElementById("overlay");
   overlay.addEventListener("click", () => {
     closeModal();
   });
   // Prevent modal from closing when clicking inside modal
+  const modals = document.querySelectorAll(".modal");
   modals.forEach((modal) => {
     modal.addEventListener("click", (event) => {
       event.stopPropagation();

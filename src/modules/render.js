@@ -150,6 +150,8 @@ const renderTodos = (project) => {
   const contentWrapper = document.getElementById("content-wrapper");
   contentWrapper.innerHTML = "";
 
+  setActiveProject(project);
+
   const todoList = document.createElement("ul");
   todoList.id = "todo-list";
   todoList.innerHTML = "";
@@ -324,7 +326,11 @@ const renderAddProject = () => {
   const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelCreate);
   // Create
-  const createProject = createButton("create-project", ["create-btn"], "Create");
+  const createProject = createButton(
+    "create-project",
+    ["create-btn"],
+    "Create"
+  );
   actionsContainer.appendChild(createProject);
 
   form.appendChild(actionsContainer);
@@ -521,7 +527,34 @@ const renderConfirmationModal = (obj) => {
   getElement("confirmation-modal").appendChild(content);
 };
 
+const setActiveProject = (project) => {
+  // Remove active class from the previous active project
+  const activeProjectItem = document.querySelector(".project-list-item.active");
+  if (activeProjectItem) {
+    activeProjectItem.classList.remove("active");
+  }
+  // Add active class to the newly selected project
+  const newActiveProjectItem = document.querySelector(
+    `.project-list-item[data-id="${project.id}"]`
+  );
+  if (newActiveProjectItem) {
+    newActiveProjectItem.classList.add("active");
+  }
+};
+
+const removeActiveTodo = () => {
+  // Remove active class from the previous active todo
+  const activeTodoItem = document.querySelector(".todo-list-item.active");
+  if (activeTodoItem) {
+    activeTodoItem.classList.remove("active");
+  }
+};
+
 export {
+  showModal,
+  hideModal,
+  setActiveProject,
+  removeActiveTodo,
   renderPage,
   renderProjects,
   renderAddProject,

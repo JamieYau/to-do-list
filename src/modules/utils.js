@@ -60,4 +60,4 @@ const generateTodos = (projects, numberOfTodos) => {
   });
 };
 
-export { generateProjects, generateTodos };
+export { generateProjects };

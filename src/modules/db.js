@@ -1,7 +1,5 @@
 import Dexie from "dexie";
-import Project from "./project";
-import Todo from "./todo";
-import { generateProjects, generateTodos } from "./utils";
+import { generateProjects } from "./utils";
 
 const db = new Dexie("TodoAppDatabase");
 
@@ -33,33 +31,4 @@ const insertTestData = async () => {
   }
 };
 
-const convertProjectsDataToModels = async (projectsData) => {
-  const projectsMap = new Map();
-
-  for (const projectData of projectsData) {
-    const project = new Project(projectData.title);
-    project.id = projectData.id;
-    projectsMap.set(project.id, project);
-
-    const todosData = await db.todos
-      .where("projectId")
-      .equals(project.id)
-      .toArray();
-
-    for (const todoData of todosData) {
-      const todo = new Todo(
-        todoData.title,
-        todoData.description,
-        new Date(todoData.dueDate),
-        todoData.priority
-      );
-      todo.id = todoData.id;
-      todo.isComplete = todoData.isComplete;
-      project.addTodo(todo);
-    }
-  }
-
-  return Array.from(projectsMap.values());
-};
-
-export { db as default, insertTestData, convertProjectsDataToModels };
+export { db as default, insertTestData };
