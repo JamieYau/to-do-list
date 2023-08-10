@@ -31,6 +31,10 @@ class Todo {
     return this.#id;
   }
 
+  set id(id) {
+    this.#id = id;
+  }
+
   get title() {
     return this.#title;
   }

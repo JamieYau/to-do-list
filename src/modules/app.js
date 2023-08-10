@@ -11,33 +11,18 @@ import {
   renderConfirmationModal,
 } from "./render.js";
 import { generateProjects, generateTodos } from "./utils.js";
-import db, { insertTestData } from "./db.js";
+import db, { insertTestData, convertProjectsDataToModels } from "./db.js";
 
 const initApp = async () => {
   renderPage();
 
   // Insert test data into the database
   await insertTestData();
-  const testRetrieveData = async () => {
-    try {
-      const projects = await db.projects.toArray();
-
-      for (const project of projects) {
-        project.todos = await db.todos
-          .where("projectId")
-          .equals(project.id)
-          .toArray();
-      }
-
-      console.log("Retrieved projects:", projects);
-    } catch (error) {
-      console.error("Error retrieving data:", error);
-    }
-  };
-
   // Call the testing function
-  testRetrieveData();
-
+  const projectsData = await db.projects.toArray();
+  console.log(projectsData);
+  const dbProjects = convertProjectsDataToModels(projectsData);
+  console.log(dbProjects);
 
   // Generate test data
   const projects = generateProjects();

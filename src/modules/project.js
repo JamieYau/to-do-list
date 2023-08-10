@@ -31,6 +31,10 @@ class Project {
     return this.#id;
   }
 
+  set id(newId) {
+    this.#id = newId;
+  }
+
   get todos() {
     return this.#todos;
   }
