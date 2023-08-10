@@ -39,6 +39,7 @@ class Project {
     if (!(todo instanceof Todo)) {
       throw new Error("You can only add Todo objects to a project.");
     }
+    todo.projectId = this.#id; // Set the projectId
     this.#todos.push(todo);
   }
 

@@ -8,6 +8,7 @@ class Todo {
   #daysTillDue;
   #priority;
   #isComplete;
+  #projectId;
 
   constructor(title, description, dueDate, priority) {
     if (title === "") {
@@ -23,6 +24,7 @@ class Todo {
     );
     this.#priority = priority;
     this.#isComplete = false;
+    this.#projectId = null;
   }
 
   get id() {
@@ -113,6 +115,14 @@ class Todo {
 
   toggleComplete() {
     this.#isComplete = !this.#isComplete;
+  }
+
+  get projectId() {
+    return this.#projectId;
+  }
+
+  set projectId(projectId) {
+    this.#projectId = projectId;
   }
 }
 
