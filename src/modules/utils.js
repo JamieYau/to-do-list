@@ -14,10 +14,12 @@ const generateProjects = () => {
   projects.push(project4);
   const project5 = new Project("Project 5");
   projects.push(project5);
+
+  generateTodos(projects, 5);
   return projects;
 };
 
-const generateRandomTodo = () => {
+const generateRandomTodo = (project) => {
   // Array of different todo titles
   const titles = [
     "Buy groceries",
@@ -46,13 +48,13 @@ const generateRandomTodo = () => {
   ); // Random due date within the next 30 days
   const priority = priorities[Math.floor(Math.random() * priorities.length)];
 
-  return new Todo(title, description, dueDate, priority);
+  return new Todo(title, description, dueDate, priority, project.id);
 };
 
 const generateTodos = (projects, numberOfTodos) => {
   projects.forEach((project) => {
     for (let i = 0; i < numberOfTodos; i++) {
-      const todo = generateRandomTodo();
+      const todo = generateRandomTodo(project);
       project.addTodo(todo);
     }
   });

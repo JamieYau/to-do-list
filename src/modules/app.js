@@ -10,7 +10,6 @@ import {
   renderEditTodo,
   renderConfirmationModal,
 } from "./render.js";
-import { generateProjects, generateTodos } from "./utils.js";
 import db, { insertTestData, convertProjectsDataToModels } from "./db.js";
 
 const initApp = async () => {
@@ -21,12 +20,9 @@ const initApp = async () => {
   // Call the testing function
   const projectsData = await db.projects.toArray();
   console.log(projectsData);
-  const dbProjects = convertProjectsDataToModels(projectsData);
-  console.log(dbProjects);
+  const projects = await convertProjectsDataToModels(projectsData);
+  console.log(projects);
 
-  // Generate test data
-  const projects = generateProjects();
-  generateTodos(projects, 5);
   renderProjects(projects);
   renderTodos(projects[0]);
 

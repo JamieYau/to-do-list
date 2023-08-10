@@ -1,6 +1,7 @@
 import Dexie from "dexie";
 import Project from "./project";
 import Todo from "./todo";
+import { generateProjects, generateTodos } from "./utils";
 
 const db = new Dexie("TodoAppDatabase");
 
@@ -12,55 +13,27 @@ db.version(3).stores({
 const insertTestData = async () => {
   await db.projects.clear();
   await db.todos.clear();
-  const testProject1 = new Project("Test Project 1");
-  const testProject2 = new Project("Test Project 2");
-
-  const todo1 = new Todo(
-    "Test Todo 1 for Project 1",
-    "This is a test todo for Project 1.",
-    new Date(),
-    "High"
-  );
-  const todo2 = new Todo(
-    "Test Todo 2 for Project 2",
-    "This is a test todo for Project 2.",
-    new Date(),
-    "Medium"
-  );
-
-  // Assign todos to projects
-  testProject1.addTodo(todo1);
-  testProject2.addTodo(todo2);
+  // Generate test projects + todos
+  const projects = generateProjects();
 
   // Insert projects and todos
-  await db.projects.bulkPut([
-    { id: testProject1.id, title: testProject1.title },
-    { id: testProject2.id, title: testProject2.title },
-  ]);
-
-  await db.todos.bulkPut([
-    {
-      id: todo1.id,
-      projectId: testProject1.id,
-      title: todo1.title,
-      description: todo1.description,
-      dueDate: todo1.dueDate,
-      priority: todo1.priority,
-      isComplete: todo1.isComplete,
-    },
-    {
-      id: todo2.id,
-      projectId: testProject2.id,
-      title: todo2.title,
-      description: todo2.description,
-      dueDate: todo2.dueDate,
-      priority: todo2.priority,
-      isComplete: todo2.isComplete,
-    },
-  ]);
+  for (const project of projects) {
+    await db.projects.put({ id: project.id, title: project.title });
+    for (const todo of project.todos) {
+      await db.todos.put({
+        id: todo.id,
+        projectId: todo.projectId,
+        title: todo.title,
+        description: todo.description,
+        dueDate: todo.dueDate,
+        priority: todo.priority,
+        isComplete: todo.isComplete,
+      });
+    }
+  }
 };
 
-const convertProjectsDataToModels = async(projectsData) => {
+const convertProjectsDataToModels = async (projectsData) => {
   const projectsMap = new Map();
 
   for (const projectData of projectsData) {
@@ -87,6 +60,6 @@ const convertProjectsDataToModels = async(projectsData) => {
   }
 
   return Array.from(projectsMap.values());
-}
+};
 
 export { db as default, insertTestData, convertProjectsDataToModels };
