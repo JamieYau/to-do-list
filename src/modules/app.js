@@ -21,8 +21,7 @@ const initApp = async () => {
 
   // Insert test data into the database
   await insertTestData();
-  const projectsData = await db.projects.toArray();
-  const projects = await dataService.convertProjectsDataToModels(projectsData);
+  const projects = await dataService.getAllProjectsAndTodos();
 
   renderProjects(projects);
   renderTodos(projects[0]);
@@ -106,17 +105,18 @@ const addTodoListener = (projects) => {
     const dueDate = document.getElementById("todo-duedate").value;
     const priority = document.getElementById("todo-priority").value;
     const projectId = document.getElementById("todo-project").value;
-    const project = projects.find((proj) => proj.id === projectId);
+    const project = projects.find((project) => project.id === projectId);
     try {
       // Call the createTodo function from dataService
-      const todo = await dataService.createTodo(
-        project,
-        title,
-        description,
-        dueDate,
-        priority
+      project.addTodo(
+        await dataService.createTodo(
+          projectId,
+          title,
+          description,
+          dueDate,
+          priority
+        )
       );
-      project.addTodo(todo);
       // Update UI and hide modal
       renderTodos(project);
       todoListeners(project);
