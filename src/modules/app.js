@@ -1,7 +1,6 @@
 import Project from "./project.js";
 import Todo from "./todo.js";
 import {
-  showModal,
   hideModal,
   setActiveProject,
   removeActiveTodo,
@@ -78,16 +77,22 @@ const sidebarListeners = (projects) => {
     });
   });
 
-  const handleCreateProject = (projects) => {
+  const handleCreateProject = async (projects) => {
     const title = document.getElementById("project-title").value;
-    const newProject = new Project(title);
-    projects.push(newProject);
-    hideModal("project-modal");
-    renderProjects(projects);
-    sidebarListeners(projects);
-    renderTodos(newProject);
-    todoListeners(newProject);
-    setActiveProject(newProject);
+
+    try {
+      const newProject = await dataService.createProject(title);
+
+      projects.push(newProject);
+      hideModal("project-modal");
+      renderProjects(projects);
+      sidebarListeners(projects);
+      renderTodos(newProject);
+      todoListeners(newProject);
+      setActiveProject(newProject);
+    } catch (error) {
+      console.error("Error creating project:", error);
+    }
   };
 };
 

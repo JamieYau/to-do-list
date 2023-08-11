@@ -33,15 +33,36 @@ const dataService = {
     return Array.from(projectsMap.values());
   },
 
+  convertProjectToDbFormat: (project) => {
+    return {
+      id: project.id,
+      title: project.title,
+    };
+  },
+
+  convertTodoToDbFormat: (todo) => {
+    return {
+      id: todo.id,
+      projectId: todo.projectId,
+      title: todo.title,
+      description: todo.description,
+      dueDate: todo.dueDate,
+      priority: todo.priority,
+      isComplete: todo.isComplete,
+    };
+  },
+
   createProject: async (title) => {
     const newProject = new Project(title);
-    await db.projects.add(newProject);
+    const dbProject = dataService.convertProjectToDbFormat(newProject);
+    await db.projects.add(dbProject);
     return newProject;
   },
 
   createTodo: async (projectId, title, description, dueDate, priority) => {
     const newTodo = new Todo(title, description, dueDate, priority, projectId);
-    await db.todos.add(newTodo);
+    const dbTodo = dataService.convertTodoToDbFormat(newTodo);
+    await db.todos.add(dbTodo);
     return newTodo;
   },
 

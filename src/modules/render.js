@@ -551,7 +551,6 @@ const removeActiveTodo = () => {
 };
 
 export {
-  showModal,
   hideModal,
   setActiveProject,
   removeActiveTodo,
