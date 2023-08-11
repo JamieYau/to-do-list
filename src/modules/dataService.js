@@ -59,10 +59,12 @@ const dataService = {
     return newProject;
   },
 
-  createTodo: async (projectId, title, description, dueDate, priority) => {
-    const newTodo = new Todo(title, description, dueDate, priority, projectId);
+  createTodo: async (project, title, description, dueDate, priority) => {
+    const newTodo = new Todo(title, description, dueDate, priority, project.id);
     const dbTodo = dataService.convertTodoToDbFormat(newTodo);
+
     await db.todos.add(dbTodo);
+
     return newTodo;
   },
 

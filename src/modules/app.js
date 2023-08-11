@@ -100,26 +100,31 @@ const sidebarListeners = (projects) => {
 const addTodoListener = (projects) => {
   const addTodoBtn = document.getElementById("add-todo");
 
-  const handleCreateTodo = () => {
+  const handleCreateTodo = async () => {
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
     const priority = document.getElementById("todo-priority").value;
     const projectId = document.getElementById("todo-project").value;
-    const project = projects.find((project) => project.id === projectId);
-    const newTodo = new Todo(
-      title,
-      description,
-      new Date(dueDate),
-      priority,
-      projectId
-    );
-    project.addTodo(newTodo);
-
-    renderTodos(project);
-    todoListeners(project);
-    hideModal("todo-modal");
-    setActiveProject(project);
+    const project = projects.find((proj) => proj.id === projectId);
+    try {
+      // Call the createTodo function from dataService
+      const todo = await dataService.createTodo(
+        project,
+        title,
+        description,
+        dueDate,
+        priority
+      );
+      project.addTodo(todo);
+      // Update UI and hide modal
+      renderTodos(project);
+      todoListeners(project);
+      hideModal("todo-modal");
+      setActiveProject(project);
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
   };
 
   addTodoBtn.addEventListener("click", () => {
