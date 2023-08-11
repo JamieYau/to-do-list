@@ -157,7 +157,7 @@ const todoListeners = (project) => {
     todoDetailsListener(selectedTodo, project);
   };
 
-  const handleCheckboxClick = (event, todoId) => {
+  const handleCheckboxClick = async (event, todoId) => {
     event.stopPropagation();
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     selectedTodo.toggleComplete();

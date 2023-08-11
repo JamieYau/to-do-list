@@ -39,6 +39,19 @@ const dataService = {
     return Array.from(projectsMap.values());
   },
 
+  convertTodoToModel: async (todoData) => {
+    const todo = new Todo(
+      todoData.title,
+      todoData.description,
+      new Date(todoData.dueDate),
+      todoData.priority,
+      todoData.projectId
+    );
+    todo.id = todoData.id;
+    todo.isComplete = todoData.isComplete;
+    return todo;
+  },
+
   convertProjectToDbFormat: (project) => {
     return {
       id: project.id,
@@ -78,10 +91,32 @@ const dataService = {
   createTodo: async (projectId, title, description, dueDate, priority) => {
     const newTodo = new Todo(title, description, dueDate, priority, projectId);
     const dbTodo = dataService.convertTodoToDbFormat(newTodo);
-
     await db.todos.add(dbTodo);
 
     return newTodo;
+  },
+
+  getTodo: async (id) => {
+    const dbTodo = await db.todos.get(id);
+    return dataService.convertTodoToModel(dbTodo);
+  },
+
+  updateTodo: async (id, title, description, dueDate, priority) => {
+    const dbTodo = await db.todos.get(id);
+    dbTodo.title = title;
+    dbTodo.description = description;
+    dbTodo.dueDate = dueDate;
+    dbTodo.priority = priority;
+    await db.todos.put(dbTodo);
+    return dataService.convertTodoToModel(dbTodo);
+  },
+
+  toggleTodoComplete: async (todoId) => {
+    const todo = await db.todos.get(todoId);
+
+    todo.isComplete = !todo.isComplete;
+    await db.todos.put(todo);
+    return todo;
   },
 
   // Implement other CRUD functions like updateProject, updateTodo, deleteProject, deleteTodo, etc.
