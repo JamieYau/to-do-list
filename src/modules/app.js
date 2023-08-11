@@ -65,8 +65,7 @@ const sidebarListeners = (projects) => {
     // Submit Add Project
     const form = document.getElementById("add-project-form");
     form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      handleCreateProject(projects);
+      handleCreateProject(event, projects);
     });
     // Cancel Add Project
     const cancelBtn = document.getElementById("cancel-create");
@@ -76,7 +75,8 @@ const sidebarListeners = (projects) => {
     });
   });
 
-  const handleCreateProject = async (projects) => {
+  const handleCreateProject = async (event, projects) => {
+    event.preventDefault();
     const title = document.getElementById("project-title").value;
 
     try {
@@ -99,7 +99,8 @@ const sidebarListeners = (projects) => {
 const addTodoListener = (projects) => {
   const addTodoBtn = document.getElementById("add-todo");
 
-  const handleCreateTodo = async () => {
+  const handleCreateTodo = async (event) => {
+    event.preventDefault();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
@@ -132,8 +133,7 @@ const addTodoListener = (projects) => {
     // Add Todo Form
     const form = document.getElementById("add-todo-form");
     form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      handleCreateTodo();
+      handleCreateTodo(event);
     });
     // Cancel Add Todo
     const cancelBtn = document.getElementById("cancel-create");
@@ -161,6 +161,7 @@ const todoListeners = (project) => {
     event.stopPropagation();
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     selectedTodo.toggleComplete();
+    await dataService.toggleTodoComplete(todoId);
     event.target.checked = selectedTodo.isComplete;
   };
 
