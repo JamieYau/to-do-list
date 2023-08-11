@@ -1,5 +1,3 @@
-import Project from "./project.js";
-import Todo from "./todo.js";
 import {
   hideModal,
   setActiveProject,
@@ -159,9 +157,9 @@ const todoListeners = (project) => {
 
   const handleCheckboxClick = async (event, todoId) => {
     event.stopPropagation();
+    await dataService.toggleTodoComplete(todoId);
     const selectedTodo = project.todos.find((todo) => todo.id === todoId);
     selectedTodo.toggleComplete();
-    await dataService.toggleTodoComplete(todoId);
     event.target.checked = selectedTodo.isComplete;
   };
 
@@ -225,12 +223,13 @@ const todoDetailsListener = (selectedTodo, project) => {
 
 const saveTodoListener = (selectedTodo, project) => {
   const form = document.getElementById("edit-todo-form");
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const title = document.getElementById("todo-title").value;
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
     const priority = document.getElementById("todo-priority").value;
+    await dataService.updateTodo(selectedTodo.id, title, description, dueDate, priority);
     selectedTodo.title = title;
     selectedTodo.description = description;
     selectedTodo.dueDate = new Date(dueDate);
