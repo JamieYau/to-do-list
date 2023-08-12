@@ -154,10 +154,16 @@ const renderProjects = (projects) => {
 // Render the todos for a project
 const renderTodos = (project) => {
   const projectName = document.getElementById("project-name");
-  projectName.textContent = project.title;
-  projectName.dataset.projectId = project.id;
   const contentWrapper = document.getElementById("content-wrapper");
   contentWrapper.innerHTML = "";
+  if (!(project instanceof Project)) {
+    projectName.textContent = "Todo List";
+    projectName.dataset.projectId = "";
+    return;
+  }
+
+  projectName.textContent = project.title;
+  projectName.dataset.projectId = project.id;
 
   setActiveProject(project);
 
