@@ -129,7 +129,16 @@ const renderProjects = (projects) => {
     const projectItem = document.createElement("li");
     projectItem.classList.add("project-list-item");
     projectItem.dataset.id = project.id;
-    projectItem.textContent = project.title;
+    const projectTitle = document.createElement("span");
+    projectTitle.textContent = project.title;
+    projectItem.appendChild(projectTitle);
+    const projectDeleteBtn = createButton(
+      "delete-project",
+      ["delete-project"],
+      null,
+      ["fas", "fa-xmark"]
+    );
+    projectItem.appendChild(projectDeleteBtn);
     projectList.appendChild(projectItem);
   });
   // Add the add project button
