@@ -119,6 +119,12 @@ const dataService = {
     return todo;
   },
 
+  deleteTodo: async (todoId) => {
+    const todo = await db.todos.get(todoId);
+    await db.todos.delete(todoId);
+    
+  },
+
   // Implement other CRUD functions like updateProject, updateTodo, deleteProject, deleteTodo, etc.
 };
 

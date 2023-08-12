@@ -261,8 +261,9 @@ const cancelDeleteListener = () => {
 
 const confirmDeleteTodoListener = (selectedTodo, project) => {
   const confirmBtn = document.getElementById("confirm-delete");
-  confirmBtn.addEventListener("click", (event) => {
+  confirmBtn.addEventListener("click", async (event) => {
     event.stopPropagation();
+    await dataService.deleteTodo(selectedTodo.id);
     project.removeTodo(selectedTodo.id);
     renderTodos(project);
     todoListeners(project);
