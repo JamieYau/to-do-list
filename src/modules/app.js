@@ -34,6 +34,7 @@ const initApp = async () => {
 // Sidebar Event Listeners
 const sidebarListeners = (projects) => {
   const projectListItems = document.querySelectorAll(".project-list-item");
+  // Project Click
   const handleProjectItemClick = (projectId) => {
     projectListItems.forEach((item) => {
       item.classList.toggle("active", item.dataset.id === projectId);
@@ -48,6 +49,30 @@ const sidebarListeners = (projects) => {
     const projectId = item.dataset.id;
     item.addEventListener("click", () => {
       handleProjectItemClick(projectId);
+    });
+  });
+  // Delete Project
+  const deleteProjectBtns = document.querySelectorAll(".delete-project");
+  const handleDeleteProject = async (event, projectId) => {
+    event.preventDefault();
+    try {
+      await dataService.deleteProject(projectId);
+      const projects = await dataService.getAllProjectsAndTodos();
+      renderProjects(projects);
+      sidebarListeners(projects);
+      renderTodos(projects[0]);
+      todoListeners(projects[0]);
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
+  deleteProjectBtns.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      const projectId = event.target.closest(".project-list-item").dataset.id;
+      const selectedProject = projects.find(
+        (project) => project.id === projectId
+      );
+      renderConfirmationModal(selectedProject);
     });
   });
   // Add Project Btn
@@ -217,7 +242,13 @@ const saveTodoListener = (selectedTodo, project) => {
     const description = document.getElementById("todo-description").value;
     const dueDate = document.getElementById("todo-duedate").value;
     const priority = document.getElementById("todo-priority").value;
-    await dataService.updateTodo(selectedTodo.id, title, description, dueDate, priority);
+    await dataService.updateTodo(
+      selectedTodo.id,
+      title,
+      description,
+      dueDate,
+      priority
+    );
     selectedTodo.title = title;
     selectedTodo.description = description;
     selectedTodo.dueDate = new Date(dueDate);
