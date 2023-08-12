@@ -88,11 +88,16 @@ const dataService = {
     return dataService.convertProjectToModel(dbProject);
   },
 
+  deleteProject: async (id) => {
+    const dbProject = await db.projects.get(id);
+    await db.projects.delete(id);
+    return dbProject;
+  },
+
   createTodo: async (projectId, title, description, dueDate, priority) => {
     const newTodo = new Todo(title, description, dueDate, priority, projectId);
     const dbTodo = dataService.convertTodoToDbFormat(newTodo);
     await db.todos.add(dbTodo);
-
     return newTodo;
   },
 
@@ -122,7 +127,7 @@ const dataService = {
   deleteTodo: async (todoId) => {
     const todo = await db.todos.get(todoId);
     await db.todos.delete(todoId);
-    
+    return todo;
   },
 
   // Implement other CRUD functions like updateProject, updateTodo, deleteProject, deleteTodo, etc.

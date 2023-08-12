@@ -62,6 +62,7 @@ const sidebarListeners = (projects) => {
       sidebarListeners(projects);
       renderTodos(projects[0]);
       todoListeners(projects[0]);
+      hideModal("confirmation-modal");
     } catch (error) {
       console.error("Error deleting project:", error);
     }
@@ -73,6 +74,17 @@ const sidebarListeners = (projects) => {
         (project) => project.id === projectId
       );
       renderConfirmationModal(selectedProject);
+      // Confirm Delete Project
+      const confirmBtn = document.getElementById("confirm-delete");
+      confirmBtn.addEventListener("click", (event) => {
+        handleDeleteProject(event, projectId);
+      });
+      // Cancel Delete Project
+      const cancelBtn = document.getElementById("cancel-delete");
+      cancelBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        hideModal("confirmation-modal");
+      });
     });
   });
   // Add Project Btn

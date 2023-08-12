@@ -111,14 +111,14 @@ button {
   justify-content: space-between;
 }
 
-.project-list-item > #delete-project {
+.project-list-item > .delete-project {
   font-size: 1.2rem;
   border: none;
   background-color: transparent;
   color: rgb(253, 55, 55);
 }
 
-.project-list-item > #delete-project:hover {
+.project-list-item > .delete-project:hover {
   font-size: 1.4rem;
 }
 
