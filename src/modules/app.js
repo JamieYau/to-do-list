@@ -49,12 +49,6 @@ const sidebarListeners = (projects) => {
     item.addEventListener("click", () => {
       handleProjectItemClick(projectId);
     });
-    item.addEventListener("mouseenter", () => {
-      item.classList.add("hover");
-    });
-    item.addEventListener("mouseleave", () => {
-      item.classList.remove("hover");
-    });
   });
   // Add Project Btn
   const addProjectBtn = document.getElementById("add-project");
@@ -167,12 +161,6 @@ const todoListeners = (project) => {
     const todoId = item.dataset.id;
     item.addEventListener("click", () => {
       handleTodoItemClick(todoId);
-    });
-    item.addEventListener("mouseenter", () => {
-      item.classList.add("hover");
-    });
-    item.addEventListener("mouseleave", () => {
-      item.classList.remove("hover");
     });
     // Checkbox
     const checkbox = item.querySelector(".is-complete");

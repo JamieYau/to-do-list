@@ -88,21 +88,57 @@ button {
 
 #sidebar > section {
   width: 100%;
-  padding: 1.5rem 2rem;
 }
 
-.sidebar-list li, #add-project {
-  padding: 10px 0;
-  text-align: start;
+#default-section > .sidebar-list > :first-child {
+  margin-top: 1rem;
+}
+
+#project-section > h3 {
+  padding: 2rem 1.5rem 1rem 1.5rem;
+}
+
+.sidebar-list li,
+#add-project {
+  padding: 0.8rem 1.5rem;
   cursor: pointer;
+  max-height: 48px;
 }
 
-.hover {
-  background-color: #e5e5e5;
+.project-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-list-item > #delete-project {
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
+  color: rgb(253, 55, 55);
+}
+
+.project-list-item > #delete-project:hover {
+  font-size: 1.4rem;
+}
+
+.project-list-item:hover:not(.active),
+#add-project:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#add-project {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: var(--font-size);
+  color: var(--font-color);
 }
 
 .active {
-  background-color: #c5c5c5;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Content */
@@ -153,6 +189,10 @@ button {
   border: var(--border);
   box-shadow: var(--box-shadow);
   cursor: pointer;
+}
+
+.todo-item:hover {
+  background-color: var(--tertiary-color);
 }
 
 .todo-item > .is-complete {
