@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #47c8ff;
+  --primary-color: #06a8ee;
   --secondary-color: #424242;
   --tertiary-color: #e5e5e5;
   --font-color: #333;
@@ -8,7 +8,7 @@
   --border-radius: 5px;
   --border: 1px solid #e5e5e5;
   --box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  --header-font-size: 32px;
+  --header-font-size: 40px;
   --header-padding: 20px;
   --header-height: calc(var(--header-font-size) + 2 * var(--header-padding));
   --foooter-font-size: 1rem;
@@ -74,7 +74,12 @@ button {
   grid-area: header;
   height: var(--header-height);
   background-color: var(--primary-color);
+  color: #e5e5e5;
   padding: var(--header-padding);
+}
+
+#page-header h1 {
+  font-size: var(--header-font-size);
 }
 
 /* Sidebar */
@@ -84,25 +89,77 @@ button {
   grid-template-rows: auto 1fr;
   background-color: #eaeaea;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #sidebar > section {
   width: 100%;
-  padding: 1.5rem 2rem;
 }
 
-.sidebar-list li, #add-project {
-  padding: 10px 0;
-  text-align: start;
+#default-section > .sidebar-list > :first-child {
+  margin-top: 1rem;
+}
+
+#project-section > h3 {
+  padding: 2rem 1.5rem 1rem 1.5rem;
+}
+
+.sidebar-list li,
+#add-project {
+  padding: 0.8rem 1.5rem;
   cursor: pointer;
 }
 
-.hover {
-  background-color: #e5e5e5;
+.project-list-item, #add-project {
+  transform: scale(1);
+  transition: transform 0.1s ease-in-out;
+}
+
+.project-list-item:hover, #add-project:hover {
+  transform: scale(1.05);
+}
+
+.project-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-list-item:hover > .delete-project {
+  display: block;
+}
+
+.project-list-item > .delete-project {
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
+  color: rgb(253, 55, 55);
+  transform: scale(1);
+  transition: transform 0.2s;
+}
+
+.project-list-item > .delete-project:hover {
+  transform: scale(1.2);
+}
+
+.project-list-item:hover:not(.active),
+#add-project:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#add-project {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  font-size: var(--font-size);
+  color: var(--font-color);
+  font-weight: bold;
 }
 
 .active {
-  background-color: #c5c5c5;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Content */
@@ -131,6 +188,30 @@ button {
   font-weight: bold;
 }
 
+.add-todo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: #fff;
+  gap: 8px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.add-todo:hover {
+  background-color: #1188ff;
+  transform: scale(1.05);
+}
+
+.add-todo span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
 #content-wrapper {
   height: calc(100% - 2 * 2rem);
   overflow-y: auto;
@@ -153,6 +234,10 @@ button {
   border: var(--border);
   box-shadow: var(--box-shadow);
   cursor: pointer;
+}
+
+.todo-item:hover {
+  background-color: var(--tertiary-color);
 }
 
 .todo-item > .is-complete {

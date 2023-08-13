@@ -129,7 +129,16 @@ const renderProjects = (projects) => {
     const projectItem = document.createElement("li");
     projectItem.classList.add("project-list-item");
     projectItem.dataset.id = project.id;
-    projectItem.textContent = project.title;
+    const projectTitle = document.createElement("span");
+    projectTitle.textContent = project.title;
+    projectItem.appendChild(projectTitle);
+    const projectDeleteBtn = createButton(
+      `delete-project-${projectItem.dataset.id}`,
+      ["delete-project", "hidden"],
+      null,
+      ["fas", "fa-xmark"]
+    );
+    projectItem.appendChild(projectDeleteBtn);
     projectList.appendChild(projectItem);
   });
   // Add the add project button
@@ -145,10 +154,18 @@ const renderProjects = (projects) => {
 // Render the todos for a project
 const renderTodos = (project) => {
   const projectName = document.getElementById("project-name");
-  projectName.textContent = project.title;
-  projectName.dataset.projectId = project.id;
   const contentWrapper = document.getElementById("content-wrapper");
   contentWrapper.innerHTML = "";
+  if (!(project instanceof Project)) {
+    projectName.textContent = "Todo List";
+    projectName.dataset.projectId = "";
+    return;
+  }
+
+  projectName.textContent = project.title;
+  projectName.dataset.projectId = project.id;
+
+  setActiveProject(project);
 
   const todoList = document.createElement("ul");
   todoList.id = "todo-list";
@@ -324,7 +341,11 @@ const renderAddProject = () => {
   const cancelCreate = createButton("cancel-create", ["cancel-btn"], "Cancel");
   actionsContainer.appendChild(cancelCreate);
   // Create
-  const createProject = createButton("create-project", ["create-btn"], "Create");
+  const createProject = createButton(
+    "create-project",
+    ["create-btn"],
+    "Create"
+  );
   actionsContainer.appendChild(createProject);
 
   form.appendChild(actionsContainer);
@@ -521,7 +542,33 @@ const renderConfirmationModal = (obj) => {
   getElement("confirmation-modal").appendChild(content);
 };
 
+const setActiveProject = (project) => {
+  // Remove active class from the previous active project
+  const activeProjectItem = document.querySelector(".project-list-item.active");
+  if (activeProjectItem) {
+    activeProjectItem.classList.remove("active");
+  }
+  // Add active class to the newly selected project
+  const newActiveProjectItem = document.querySelector(
+    `.project-list-item[data-id="${project.id}"]`
+  );
+  if (newActiveProjectItem) {
+    newActiveProjectItem.classList.add("active");
+  }
+};
+
+const removeActiveTodo = () => {
+  // Remove active class from the previous active todo
+  const activeTodoItem = document.querySelector(".todo-list-item.active");
+  if (activeTodoItem) {
+    activeTodoItem.classList.remove("active");
+  }
+};
+
 export {
+  hideModal,
+  setActiveProject,
+  removeActiveTodo,
   renderPage,
   renderProjects,
   renderAddProject,

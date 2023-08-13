@@ -8,8 +8,9 @@ class Todo {
   #daysTillDue;
   #priority;
   #isComplete;
+  #projectId;
 
-  constructor(title, description, dueDate, priority) {
+  constructor(title, description, dueDate, priority, projectId) {
     if (title === "") {
       throw new Error("Title cannot be empty.");
     }
@@ -23,10 +24,15 @@ class Todo {
     );
     this.#priority = priority;
     this.#isComplete = false;
+    this.#projectId = projectId;
   }
 
   get id() {
     return this.#id;
+  }
+
+  set id(id) {
+    this.#id = id;
   }
 
   get title() {
@@ -113,6 +119,14 @@ class Todo {
 
   toggleComplete() {
     this.#isComplete = !this.#isComplete;
+  }
+
+  get projectId() {
+    return this.#projectId;
+  }
+
+  set projectId(projectId) {
+    this.#projectId = projectId;
   }
 }
 

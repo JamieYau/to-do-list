@@ -31,6 +31,10 @@ class Project {
     return this.#id;
   }
 
+  set id(newId) {
+    this.#id = newId;
+  }
+
   get todos() {
     return this.#todos;
   }
@@ -39,6 +43,7 @@ class Project {
     if (!(todo instanceof Todo)) {
       throw new Error("You can only add Todo objects to a project.");
     }
+    todo.projectId = this.#id; // Set the projectId
     this.#todos.push(todo);
   }
 
