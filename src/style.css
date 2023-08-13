@@ -108,6 +108,7 @@ button {
 #add-project {
   padding: 0.8rem 1.5rem;
   cursor: pointer;
+  border:none;
 }
 
 .project-list-item, #add-project {
@@ -356,14 +357,14 @@ form {
   padding: 0.2rem 0.5rem;
 }
 
-#actions-container {
+.actions-container {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
 }
 
-#actions-container > button {
+.actions-container > button {
   padding: 0.4rem;
   border-radius: var(--border-radius);
   border: var(--border);
