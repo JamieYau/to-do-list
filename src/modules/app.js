@@ -34,6 +34,20 @@ const initApp = async () => {
 // Sidebar Event Listeners
 const sidebarListeners = (projects) => {
   const projectListItems = document.querySelectorAll(".project-list-item");
+  // Hover Project
+  const handleProjectHover = (item) => {
+    const deleteBtn = item.querySelector(".delete-project");
+    deleteBtn.classList.toggle("hidden");
+  };
+
+  projectListItems.forEach((item) => {
+    item.addEventListener("mouseover", () => {
+      handleProjectHover(item);
+    });
+    item.addEventListener("mouseout", () => {
+      handleProjectHover(item);
+    });
+  });
   // Project Click
   const handleProjectItemClick = (projectId) => {
     projectListItems.forEach((item) => {

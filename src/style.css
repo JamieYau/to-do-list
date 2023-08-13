@@ -102,7 +102,6 @@ button {
 #add-project {
   padding: 0.8rem 1.5rem;
   cursor: pointer;
-  max-height: 48px;
 }
 
 .project-list-item {
@@ -116,10 +115,12 @@ button {
   border: none;
   background-color: transparent;
   color: rgb(253, 55, 55);
+  transform: scale(1);
+  transition: transform 0.2s;
 }
 
 .project-list-item > .delete-project:hover {
-  font-size: 1.4rem;
+  transform: scale(1.2);
 }
 
 .project-list-item:hover:not(.active),

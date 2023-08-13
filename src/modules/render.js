@@ -134,7 +134,7 @@ const renderProjects = (projects) => {
     projectItem.appendChild(projectTitle);
     const projectDeleteBtn = createButton(
       `delete-project-${projectItem.dataset.id}`,
-      ["delete-project"],
+      ["delete-project", "hidden"],
       null,
       ["fas", "fa-xmark"]
     );
